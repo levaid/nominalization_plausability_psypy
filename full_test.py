@@ -193,6 +193,21 @@ def shuffle_title(string, updown, leftright):
     
     return(formatted_string)
 
+
+def create_contingency_tables(filename):
+    table = pd.read_csv(filename)
+    output = []
+    output.append(pd.crosstab(table['stimulus_plaus'],table['answer_role'], margins = True, normalize='index'))
+    table_sentence = table[(table['stimulus_type'] == 'sentence')]
+    table_image = table[(table['stimulus_type'] == 'image')]
+    output.append(pd.crosstab(table_sentence['stimulus_plaus'],table_sentence['answer_role'], margins = True))
+    output.append(pd.crosstab(table_image['stimulus_plaus'],table_image['answer_role'], margins = True))
+    output.append(pd.crosstab(table['key_resp.keys'],table['answer_role'], margins = True))
+    output.append(pd.crosstab(table['nom1_indented'],table['key_resp.keys'], margins = True))
+    output.append(pd.crosstab(table['nom2_indented'],table['key_resp.keys'], margins = True))
+    output.append(pd.crosstab([table['stimulus_type'],table['stimulus_plaus']],table['answer_role'], margins = True))
+    return(output)
+
 base_order = sorted(list(images_dict.keys()))
 
 #print(images_dict)
@@ -272,7 +287,7 @@ start_and_end = []
 
 nom_position = (8/9, -0.4)
 # TODO hardcoded stuff
-for iteration_index, i in enumerate(final_order):
+for iteration_index, i in enumerate(final_order[:40]):
     
     x_order, y_order = nomin_orders[iteration_index]
     #nominalizations += [create_textstim(f, 
@@ -461,9 +476,9 @@ LIST_OF_INST_KEYS = []
 
 #### PARAMETERS: #####
 
-wait_between_images = 0.5
-float_in_time = 3
-text_after_image = 3
+wait_between_images = 0.5 / 20
+float_in_time = 3 / 20
+text_after_image = 3 / 20
 last_keypress_timestamp = -wait_between_images # to start slideshow at 0
 
 DBG_end_of_last_image = -1
@@ -987,6 +1002,16 @@ win.winHandle.set_fullscreen(False)
 win.winHandle.set_visible(False)
 
 win.close()
+
+if len(LIST_OF_KEYS) == len(stimuli):
+    print('doing stats')
+    output_tables = create_contingency_tables(filename+'.csv')
+    writer = pd.ExcelWriter(filename+'_statistics.xls')
+    offset = 0
+    for dataframe in output_tables:
+        dataframe.to_excel(writer, "sheet1", index=True, startrow=offset)
+        offset += len(dataframe) + 2
+    writer.save()
 
 
 response_dialog_input = {'Megjegyzések, észrevételek:': '', 'Milyen stratégiát alkalmazott? \nAmennyiben módja van rá, kérem foglalja össze:': ''}
