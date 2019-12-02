@@ -982,6 +982,10 @@ thisExp.saveAsWideText(filename+'.csv')
 logging.flush()
 # make sure everything is closed down
 thisExp.abort()  # or data files will save again on exit
+      
+win.winHandle.set_fullscreen(False)
+win.winHandle.set_visible(False)
+
 win.close()
 
 
