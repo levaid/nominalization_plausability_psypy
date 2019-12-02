@@ -1006,7 +1006,7 @@ win.close()
 if len(LIST_OF_KEYS) == len(stimuli):
     print('doing stats')
     output_tables = create_contingency_tables(filename+'.csv')
-    writer = pd.ExcelWriter(filename+'_statistics.xls')
+    writer = pd.ExcelWriter(filename+'_statistics.xlsx')
     offset = 0
     for dataframe in output_tables:
         dataframe.to_excel(writer, "sheet1", index=True, startrow=offset)
