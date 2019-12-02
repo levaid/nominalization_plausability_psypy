@@ -795,6 +795,10 @@ win.flip()
 # thisExp.saveAsPickle(filename)
 # make sure everything is closed down
 thisExp.abort()  # or data files will save again on exit
+
+win.winHandle.set_fullscreen(False)
+win.winHandle.set_visible(False)
+      
 win.close()
 
 
