@@ -324,9 +324,9 @@ LIST_OF_INST_KEYS = []
 
 #### PARAMETERS: #####
 
-wait_between_images = 0.5 /10
-float_in_time = 3 / 10
-text_after_image = 3 / 10
+wait_between_images = 0.5
+float_in_time = 3
+text_after_image = 3
 last_keypress_timestamp = -wait_between_images # to start slideshow at 0
 
 DBG_end_of_last_image = -1
