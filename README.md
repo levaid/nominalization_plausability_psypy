@@ -1,1 +1,1 @@
-# nominalization_plausability_psypy
+Fonts needed to run the test are found in fonts folder.
