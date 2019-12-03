@@ -36,20 +36,20 @@ from psychopy.hardware import keyboard
 
 # reading datafile which will be used when creating iterable object
 
-datafile = pd.read_csv('Zimmerer_materials_Banreti_agent_patient.csv')
+datafile = pd.read_csv('Zimmerer_order_integral.csv')
 
 images_l1, images_l2 = defaultdict(dict), defaultdict(dict)
 sentences_l1, sentences_l2 = defaultdict(dict), defaultdict(dict)
 role_per_stimulus = defaultdict(dict)
+svo_orders = {}
 
 for line in datafile.values:
-    num, picsent, plaus, title, l, imgname, sentence, nomin, nom1ap, nom2ap = line
+    num, picsent, plaus, title, l, imgname, sentence, nomin, nom1ap, nom2ap, svo_order = line
     if l == 1:
         if picsent == 'pic':
             images_l1[num]['image'] = imgname
             images_l1[num]['desc_of_image'] = title
             images_l1[num]['plausibility'] = plaus
-        #print(nomin, type(nomin))
         if picsent == 'sent':
             sentences_l1[num]['sentence'] = sentence
             sentences_l1[num]['plausibility'] = plaus
@@ -63,7 +63,6 @@ for line in datafile.values:
         if picsent == 'sent':
             sentences_l2[num]['sentence'] = sentence
             sentences_l2[num]['plausibility'] = plaus
-        #print(nomin, type(nomin))
     
     if isinstance(nomin, str):
         images_l1[num]['nomin'] = nomin
@@ -75,13 +74,11 @@ for line in datafile.values:
         stim = title
     elif picsent == 'sent':
         stim = sentence
+        svo_orders[stim] = svo_order
 
-    #print(nomin)
-    
     nom1, nom2 = nomin.split('#')
     role_per_stimulus[stim][nom1] = nom1ap
     role_per_stimulus[stim][nom2] = nom2ap
-
 
 
 # Ensure that relative paths start from the same directory as this script
@@ -198,10 +195,14 @@ def create_contingency_tables(filename):
     table = pd.read_csv(filename)
     output = []
     output.append(pd.crosstab(table['stimulus_plaus'],table['answer_role'], margins = True, normalize='index'))
-    table_sentence = table[(table['stimulus_type'] == 'sentence')]
+    table_sentence = table[(table['stimulus_type'] == 'sentence')].rename(columns={'stimulus_plaus':'sentences_stimulus_plaus', 'word_order':'sentences_word_order'})
     table_image = table[(table['stimulus_type'] == 'image')]
     output.append(pd.crosstab(table_sentence['stimulus_plaus'],table_sentence['answer_role'], margins = True))
-    output.append(pd.crosstab(table_image['stimulus_plaus'],table_image['answer_role'], margins = True))
+    test = (pd.crosstab(table_sentence['word_order'],table_sentence['answer_role'], margins = True))
+    print(test)
+    print(test.columns)
+    output.append(test)
+    output.append(pd.crosstab(table_image['stimulus_plaus'],table_image['answer_role'], margins = True).rename({'stimulus_plaus':'images_stimulus_plaus'}))
     output.append(pd.crosstab(table['key_resp.keys'],table['answer_role'], margins = True))
     output.append(pd.crosstab(table['nom1_indented'],table['key_resp.keys'], margins = True))
     output.append(pd.crosstab(table['nom2_indented'],table['key_resp.keys'], margins = True))
@@ -278,6 +279,8 @@ for i, block in enumerate(blocks_2):
 
 final_order = base_order + second_order_random
 
+print(base_order, np.unique(base_order))
+print(final_order)
 # raise(BaseException)
 
 fixations = []
@@ -945,6 +948,9 @@ for key_resp, stimulus, orders, nom in zip(key_responses, stimuli, nomin_orders,
     thisExp.addData('stimulus_type', stim_type)
     thisExp.addData('stimulus_id', id)
     thisExp.addData('stimulus_plaus', plaus)
+
+    if stim_type == 'sentence':
+        thisExp.addData('word_order', svo_orders[stim_name])
 
     nom1, nom2 = nom.text.split('\n')
     thisExp.addData('nom_1_X', nom1.strip('⅄Ɔ: '))
