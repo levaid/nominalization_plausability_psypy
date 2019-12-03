@@ -290,7 +290,7 @@ start_and_end = []
 
 nom_position = (8/9, -0.4)
 # TODO hardcoded stuff
-for iteration_index, i in enumerate(final_order[:40]):
+for iteration_index, i in enumerate(final_order[:80]):
     
     x_order, y_order = nomin_orders[iteration_index]
     #nominalizations += [create_textstim(f, 
@@ -313,7 +313,7 @@ for iteration_index, i in enumerate(final_order[:40]):
         alignHoriz='right',
         win=win,
         name=f'fix_{i}',
-        font='Noto Sans Mono',
+        font='Noto Sans',
         text='?',
         pos=nom_position,
         # color = color,
