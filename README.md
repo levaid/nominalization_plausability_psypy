@@ -9,5 +9,5 @@ A PsychoPy3 coderben kell megnyitni a `.py` fájlokat. A `full_test.py` a teljes
 A kimenet a data mappában található. Minden teszthez 4 fájlt generál a program: 
 - egy `.csv` fájlt a válaszokkal, amelyeket a tesztalany adott (ezt az Excel megnyitja)
 - egy `_commentary.txt` fájlt, melyben az alany szöveges viszajelzése van
-- egy `_statics.xlsx` fájlt, amelyben aggregált statisztikák vannak a válaszadó válaszaiból
+- egy `_statistics.xlsx` fájlt, amelyben aggregált statisztikák vannak a válaszadó válaszaiból
 - egy `.log` fájlt, amiben a teszt futásával kapcsolatos információk vannak (például hogy mely képeket mikor rajzolta ki)
