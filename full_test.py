@@ -180,13 +180,13 @@ def shuffle_title(string, updown, leftright):
     # 1 is up and left, it says nom1's position, nom2 ios diagonal to that
     nom1, nom2 = string.split('#')
     if updown == 1 and leftright == 1:
-        formatted_string = f"⅄: {nom1}\n{' '*len(nom1)*2}Ɔ: {nom2}"
+        formatted_string = f"⅄:  {nom1}\n{' '*len(nom1)*2}Ɔ:  {nom2}"
     if updown == 0 and leftright == 1:
-        formatted_string = f"{' '*len(nom1)*2}⅄: {nom2}\nƆ: {nom1}"
+        formatted_string = f"{' '*len(nom1)*2}⅄:  {nom2}\nƆ:  {nom1}"
     if updown == 1 and leftright == 0:
-        formatted_string = f"{' '*len(nom2)*2}⅄: {nom1}\nƆ: {nom2}"
+        formatted_string = f"{' '*len(nom2)*2}⅄:  {nom1}\nƆ:  {nom2}"
     if updown == 0 and leftright == 0:
-        formatted_string = f"⅄: {nom2}\n{' '*len(nom2)*2}Ɔ: {nom1}"
+        formatted_string = f"⅄:  {nom2}\n{' '*len(nom2)*2}Ɔ:  {nom1}"
     
     return(formatted_string)
 
@@ -288,7 +288,7 @@ stimuli = []
 instruction_keypresses = []
 start_and_end = []
 
-nom_position = (8/9, -0.4)
+nom_position = (8/9-0.05, -0.4)
 # TODO hardcoded stuff
 for iteration_index, i in enumerate(final_order[:80]):
     
@@ -379,7 +379,8 @@ for iteration_index, i in enumerate(final_order[:80]):
         win=win,
         name=f'H{i}',
         font='Noto Sans',
-        text='Ön a következőben képeket fog látni. A képernyő jobb alsó sarkában olvasható két felirat közül válassza ki azt, amelyik a legjobban kifejezi a kép lényegét.' + '\n' +
+        text='Ön képeket fog látni. Majd a képernyő jobb alsó sarkában két felirat jelenik meg. Válassza ki közülük azt, amelyik legjobban kifejezi a kép lényegét.' + '\n' +
+                'A feliratok közül a ⅄ és Ɔ gomb egyszeri lenyomásával válasszon.' + '\n' + 
                 'Nyomjon szóközt a továbbhaladáshoz.',
         pos=(0, 0),
         height=0.05,
@@ -395,7 +396,8 @@ for iteration_index, i in enumerate(final_order[:80]):
         win=win,
         name=f'H{i}',
         font='Noto Sans',
-        text='Ön a következőben mondatokat fog látni. A képernyő jobb alsó sarkában olvasható két felirat közül válassza ki azt, amelyik a legjobban kifejezi a mondat lényegét.' + '\n' +
+        text='Ön mondatokat fog látni. Majd a képernyő jobb alsó sarkában két felirat jelenik meg. Válassza ki közülük azt, amelyik legjobban kifejezi a mondat lényegét.' + '\n' +
+                'A feliratok közül a ⅄ és Ɔ gomb egyszeri lenyomásával válasszon.' + '\n' + 
                 'Nyomjon szóközt a továbbhaladáshoz.',
         pos=(0, 0),
         height=0.05,
@@ -479,9 +481,9 @@ LIST_OF_INST_KEYS = []
 
 #### PARAMETERS: #####
 
-wait_between_images = 0.5
+wait_between_images = 0.5 
 float_in_time = 3 
-text_after_image = 3
+text_after_image = 3 
 last_keypress_timestamp = -wait_between_images # to start slideshow at 0
 
 DBG_end_of_last_image = -1

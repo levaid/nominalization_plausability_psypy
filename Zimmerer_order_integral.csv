@@ -67,8 +67,8 @@ ItemNum,Pic_Sent,Plaus_Implaus,Stimulus,List,img_name,banreti,nom,nom1_ap,nom2_a
 17,pic,implaus,17_implaus_woman_bites_vampir.jpg,2,IMG_0194.JPG,,a vámpir ijesztése#a nő ijesztése,p,a,
 17,sent,plaus,The vampire is biting the woman.,2,IMG_0195.JPG,A vámpír ijeszti a nőt.,a vámpir ijesztése#a nő ijesztése,a,p,
 17,sent,implaus,The woman is biting the vampire.,1,IMG_0194.JPG,A nő ijeszti a vámpírt.,a vámpir ijesztése#a nő ijesztése,p,a,SVO
-18,pic,plaus,18_plaus_waiter_serving_customer.jpg,2,IMG_0198.JPG,,a pincér itatása#a tursita itatása,a,p,SVO
-18,pic,implaus,18_implaus_customer_serving_waiter.jpg,1,IMG_0196.JPG,,a pincér itatása#a tursita itatása,p,a,
+18,pic,plaus,18_plaus_waiter_serving_customer.jpg,2,IMG_0198.JPG,,a pincér itatása#a turista itatása,a,p,SVO
+18,pic,implaus,18_implaus_customer_serving_waiter.jpg,1,IMG_0196.JPG,,a pincér itatása#a turista itatása,p,a,
 18,sent,plaus,The waiter is serving the customer.,1,IMG_0198.JPG,A turistát itatja a pincér.,a pincér itatása#a tursita itatása,a,p,OVS
 18,sent,implaus,The customer is serving the waiter.,2,IMG_0196.JPG,A pincért itatja a turista.,a pincér itatása#a tursita itatása,p,a,OVS
 19,pic,plaus,19_plaus_man_gives_to_beggar.jpg,1,IMG_0200.JPG,,az úr támogatása#a szegényember támogatása,a,p,
@@ -81,7 +81,7 @@ ItemNum,Pic_Sent,Plaus_Implaus,Stimulus,List,img_name,banreti,nom,nom1_ap,nom2_a
 20,sent,implaus,The lady is cooking for the chef.,2,IMG_0201.JPG,A hölgy táplálja a szakácsot.,a hölgy táplálása#a szakács táplálása,a,p,SVO
 21,pic,plaus,21_plaus_ballerina_dances_for_grandpa.jpg,1,IMG_0205.JPG,,a lány vidítása#az úr vidítása,a,p,
 21,pic,implaus,21_implaus_grandpa_dances_for_ballerina.jpg,2,IMG_0204.JPG,,a lány vidítása#az úr vidítása,p,a,
-21,sent,plaus,The ballerina is dancing for the grandpa.,2,IMG_0205.JPG,A lány táncccal vidítja az urat.,a lány vidítása#az úr vidítása,a,p,SVO
+21,sent,plaus,The ballerina is dancing for the grandpa.,2,IMG_0205.JPG,A lány tánccal vidítja az urat.,a lány vidítása#az úr vidítása,a,p,SVO
 21,sent,implaus,The grandpa is dancing for the ballerina.,1,IMG_0204.JPG,Az úr tánccal vidítja a lányt.,a lány vidítása#az úr vidítása,p,a,SVO
 22,pic,plaus,22_plaus_journalist_interviews_sports_star.jpg,2,IMG_0207.JPG,,a focista faggatása#a riporter faggatása,p,a,
 22,pic,implaus,22_implaus_sports_star_interviews_journalist.jpg,1,IMG_0206.JPG,,a focista faggatása#a riporter faggatása,a,p,
@@ -110,7 +110,7 @@ ItemNum,Pic_Sent,Plaus_Implaus,Stimulus,List,img_name,banreti,nom,nom1_ap,nom2_a
 28,pic,plaus,28_plaus_father_laces_shoes_of_child.jpg,2,IMG_0219.JPG,,a kisfiú öltöztetése#a papa öltöztetése,p,a,
 28,pic,implaus,28_implaus_child_laces_shoes_of_father.jpg,1,IMG_0218.JPG,,a kisfiú öltöztetése#a papa öltöztetése,a,p,
 28,sent,plaus,The father is tying the son's shoes.,1,IMG_0219.JPG,A kisfiút öltözteti a papa.,a kisfiú öltöztetése#a papa öltöztetése,p,a,OVS
-28,sent,implaus,The son is tying the father's shoes.,2,IMG_0218.JPG,A papát öltözteti a kisfiü.,a kisfiú öltöztetése#a papa öltöztetése,a,p,OVS
+28,sent,implaus,The son is tying the father's shoes.,2,IMG_0218.JPG,A papát öltözteti a kisfiú.,a kisfiú öltöztetése#a papa öltöztetése,a,p,OVS
 29,pic,plaus,29_plaus_thief_steals_from_grandma.jpg,1,IMG_0221.JPG,,a nő bántása#a fiú bántása,p,a,
 29,pic,implaus,29_implaus_grandma_steals_from_thief.jpg,2,IMG_0220.JPG,,a nő bántása#a fiú bántása,a,p,
 29,sent,plaus,The thief is stealing the purse from the grandma.,2,IMG_0221.JPG,A fiú éppen bántja a nőt,a nő bántása#a fiú bántása,p,a,SVO

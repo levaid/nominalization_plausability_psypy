@@ -101,13 +101,13 @@ def shuffle_title(string, updown, leftright):
     # 1 is up and left, it says nom1's position, nom2 ios diagonal to that
     nom1, nom2 = string.split('#')
     if updown == 1 and leftright == 1:
-        formatted_string = f"⅄: {nom1}\n{' '*len(nom1)*2}Ɔ: {nom2}"
+        formatted_string = f"⅄:  {nom1}\n{' '*len(nom1)*2}Ɔ:  {nom2}"
     if updown == 0 and leftright == 1:
-        formatted_string = f"{' '*len(nom1)*2}⅄: {nom2}\nƆ: {nom1}"
+        formatted_string = f"{' '*len(nom1)*2}⅄: {nom2}\nƆ:  {nom1}"
     if updown == 1 and leftright == 0:
-        formatted_string = f"{' '*len(nom2)*2}⅄: {nom1}\nƆ: {nom2}"
+        formatted_string = f"{' '*len(nom2)*2}⅄: {nom1}\nƆ:  {nom2}"
     if updown == 0 and leftright == 0:
-        formatted_string = f"⅄: {nom2}\n{' '*len(nom2)*2}Ɔ: {nom1}"
+        formatted_string = f"⅄:  {nom2}\n{' '*len(nom2)*2}Ɔ:  {nom1}"
     
     return(formatted_string)
 
@@ -138,7 +138,7 @@ stimuli = []
 instruction_keypresses = []
 start_and_end = []
 
-nom_position = (8/9, -0.4)
+nom_position = (8/9-0.05, -0.4)
 # TODO hardcoded stuff
 for iteration_index, i in enumerate([1, 2, 3, 4]):
     
@@ -224,9 +224,9 @@ for iteration_index, i in enumerate([1, 2, 3, 4]):
         win=win,
         name=f'H{i}',
         font='Noto Sans',
-        text='Ön a következőben képeket fog látni. A képernyő jobb alsó sarkában olvasható két felirat közül válassza ki azt, amelyik a legjobban kifejezi a kép lényegét.' + '\n' +
-                'Nyomjon szóközt a továbbhaladáshoz.',
-        pos=(0, 0),
+        text='Ön képeket fog látni. Majd a képernyő jobb alsó sarkában két felirat jelenik meg. Válassza ki közülük azt, amelyik legjobban kifejezi a kép lényegét.' + '\n' +
+                'A feliratok közül a ⅄ és Ɔ gomb egyszeri lenyomásával válasszon.' + '\n' + 
+                'Nyomjon szóközt a továbbhaladáshoz.',        pos=(0, 0),
         height=0.05,
         wrapWidth=1.3)]
         current_key = keyboard.Keyboard()
@@ -240,9 +240,9 @@ for iteration_index, i in enumerate([1, 2, 3, 4]):
         win=win,
         name=f'H{i}',
         font='Noto Sans',
-        text='Ön a következőben mondatokat fog látni. A képernyő jobb alsó sarkában olvasható két felirat közül válassza ki azt, amelyik a legjobban kifejezi a mondat lényegét.' + '\n' +
-                'Nyomjon szóközt a továbbhaladáshoz.',
-        pos=(0, 0),
+        text='Ön mondatokat fog látni. Majd a képernyő jobb alsó sarkában két felirat jelenik meg. Válassza ki közülük azt, amelyik legjobban kifejezi a mondat lényegét.' + '\n' +
+                'A feliratok közül a ⅄ és Ɔ gomb egyszeri lenyomásával válasszon.' + '\n' + 
+                'Nyomjon szóközt a továbbhaladáshoz.',        pos=(0, 0),
         height=0.05,
         wrapWidth=1.3)]
         current_key = keyboard.Keyboard()
