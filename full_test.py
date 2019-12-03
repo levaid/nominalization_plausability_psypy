@@ -194,19 +194,19 @@ def shuffle_title(string, updown, leftright):
 def create_contingency_tables(filename):
     table = pd.read_csv(filename)
     output = []
+    output.append(pd.crosstab([table['stimulus_type'],table['stimulus_plaus']],table['answer_role'], margins = True))
+    output.append(pd.crosstab([table['stimulus_type'],table['stimulus_plaus']],table['answer_role'], margins = True, normalize='index'))
     output.append(pd.crosstab(table['stimulus_plaus'],table['answer_role'], margins = True, normalize='index'))
     table_sentence = table[(table['stimulus_type'] == 'sentence')].rename(columns={'stimulus_plaus':'sentences_stimulus_plaus', 'word_order':'sentences_word_order'})
-    table_image = table[(table['stimulus_type'] == 'image')]
-    output.append(pd.crosstab(table_sentence['stimulus_plaus'],table_sentence['answer_role'], margins = True))
-    test = (pd.crosstab(table_sentence['word_order'],table_sentence['answer_role'], margins = True))
-    print(test)
-    print(test.columns)
+    table_image = table[(table['stimulus_type'] == 'image')].rename({'stimulus_plaus':'images_stimulus_plaus'})
+    output.append(pd.crosstab(table_sentence['sentences_stimulus_plaus'],table_sentence['answer_role'], margins = True))
+    test = pd.crosstab(table_sentence['sentences_word_order'],table_sentence['answer_role'], margins = True)
     output.append(test)
-    output.append(pd.crosstab(table_image['stimulus_plaus'],table_image['answer_role'], margins = True).rename({'stimulus_plaus':'images_stimulus_plaus'}))
+    output.append(pd.crosstab(table_image['stimulus_plaus'],table_image['answer_role'], margins = True))
     output.append(pd.crosstab(table['key_resp.keys'],table['answer_role'], margins = True))
     output.append(pd.crosstab(table['nom1_indented'],table['key_resp.keys'], margins = True))
     output.append(pd.crosstab(table['nom2_indented'],table['key_resp.keys'], margins = True))
-    output.append(pd.crosstab([table['stimulus_type'],table['stimulus_plaus']],table['answer_role'], margins = True))
+    
     return(output)
 
 base_order = sorted(list(images_dict.keys()))
