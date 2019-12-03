@@ -69,8 +69,8 @@ ItemNum,Pic_Sent,Plaus_Implaus,Stimulus,List,img_name,banreti,nom,nom1_ap,nom2_a
 17,sent,implaus,The woman is biting the vampire.,1,IMG_0194.JPG,A nő ijeszti a vámpírt.,a vámpir ijesztése#a nő ijesztése,p,a,SVO
 18,pic,plaus,18_plaus_waiter_serving_customer.jpg,2,IMG_0198.JPG,,a pincér itatása#a turista itatása,a,p,SVO
 18,pic,implaus,18_implaus_customer_serving_waiter.jpg,1,IMG_0196.JPG,,a pincér itatása#a turista itatása,p,a,
-18,sent,plaus,The waiter is serving the customer.,1,IMG_0198.JPG,A turistát itatja a pincér.,a pincér itatása#a tursita itatása,a,p,OVS
-18,sent,implaus,The customer is serving the waiter.,2,IMG_0196.JPG,A pincért itatja a turista.,a pincér itatása#a tursita itatása,p,a,OVS
+18,sent,plaus,The waiter is serving the customer.,1,IMG_0198.JPG,A turistát itatja a pincér.,a pincér itatása#a turista itatása,a,p,OVS
+18,sent,implaus,The customer is serving the waiter.,2,IMG_0196.JPG,A pincért itatja a turista.,a pincér itatása#a turista itatása,p,a,OVS
 19,pic,plaus,19_plaus_man_gives_to_beggar.jpg,1,IMG_0200.JPG,,az úr támogatása#a szegényember támogatása,a,p,
 19,pic,implaus,19_implaus_beggar_gives_to_man.jpg,2,IMG_0199.JPG,,az úr támogatása#a szegényember támogatása,p,a,
 19,sent,plaus,The lawyer is giving money to the beggar.,2,IMG_0200.JPG,Az úr pénzzel támogatja a szegényembert.,az úr támogatása#a szegényember támogatása,a,p,SVO
