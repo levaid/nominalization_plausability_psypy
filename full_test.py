@@ -34,6 +34,12 @@ import pandas as pd
 
 from psychopy.hardware import keyboard
 
+## TIME ARGUMENTS, CAN BE MODIFIED
+
+wait_between_images = 0.5
+float_in_time = 3
+text_after_image = 2
+
 # reading datafile which will be used when creating iterable object
 
 datafile = pd.read_csv('Zimmerer_order_integral.csv')
@@ -277,10 +283,22 @@ for i, block in enumerate(blocks_2):
 #print(blocks_2)
 #print(second_order_random)
 
-final_order = base_order + second_order_random
 
-print(base_order, np.unique(base_order))
-print(final_order)
+
+# print(base_order, np.unique(base_order))
+
+print(base_order)
+print(second_order_random)
+
+if base_order[-1] == second_order_random[0]:
+    print('TRIGGERED')
+    print(base_order)
+    print(second_order_random)
+    second_order_random[0], second_order_random[5] = second_order_random[5], second_order_random[0]
+
+final_order = base_order + second_order_random
+# print(final_order)
+# print(final_order)
 # raise(BaseException)
 
 fixations = []
@@ -481,9 +499,7 @@ LIST_OF_INST_KEYS = []
 
 #### PARAMETERS: #####
 
-wait_between_images = 0.5 
-float_in_time = 3 
-text_after_image = 3 
+
 last_keypress_timestamp = -wait_between_images # to start slideshow at 0
 
 DBG_end_of_last_image = -1
@@ -832,7 +848,7 @@ while continueRoutine and routineTimer.getTime() > 0:
                     theseKeys = theseKeys[0]  # at least one key was pressed
                     LIST_OF_KEYS += [theseKeys.name]
                     last_keypress_timestamp = t
-                    print(theseKeys.name)
+                    # print(theseKeys.name)
                     # print(theseKeys.name)
                     # print(theseKeys.rt)
                     # check for quit:
@@ -1021,11 +1037,21 @@ if len(LIST_OF_KEYS) == len(stimuli):
         offset += len(dataframe) + 2
     writer.save()
 
+writer = pd.ExcelWriter(filename+'_data.xlsx')
+raw_output = pd.read_csv(filename+'.csv')
+raw_output.to_excel(writer, 'sheet1', index=False)
+writer.save()
+
+
+
+
 
 response_dialog_input = {'Megjegyzések, észrevételek:': '', 'Milyen stratégiát alkalmazott? \nAmennyiben módja van rá, kérem foglalja össze:': ''}
 response_dialog = gui.DlgFromDict(dictionary=response_dialog_input, sortKeys=False, title=expName)
 if dlg.OK is False:
     core.quit()  # user pressed cancel
+
+
 
 #print(response_dialog_input)
 
