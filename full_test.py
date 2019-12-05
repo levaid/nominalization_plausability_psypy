@@ -1027,6 +1027,15 @@ win.winHandle.set_visible(False)
 
 win.close()
 
+response_dialog_input = {'Megjegyzések, észrevételek:': '', 'Milyen stratégiát alkalmazott? \nAmennyiben módja van rá, kérem foglalja össze:': ''}
+response_dialog = gui.DlgFromDict(dictionary=response_dialog_input, sortKeys=False, title=expName)
+if dlg.OK is False:
+    core.quit()  # user pressed cancel
+
+with open(filename + '_commentary.txt', 'w') as f:
+    for key, value in sorted(list(response_dialog_input.items())):
+        f.write(key + '\n' + value + '\n')
+
 if len(LIST_OF_KEYS) == len(stimuli):
     print('doing stats')
     output_tables = create_contingency_tables(filename+'.csv')
@@ -1041,23 +1050,5 @@ writer = pd.ExcelWriter(filename+'_data.xlsx')
 raw_output = pd.read_csv(filename+'.csv')
 raw_output.to_excel(writer, 'sheet1', index=False)
 writer.save()
-
-
-
-
-
-response_dialog_input = {'Megjegyzések, észrevételek:': '', 'Milyen stratégiát alkalmazott? \nAmennyiben módja van rá, kérem foglalja össze:': ''}
-response_dialog = gui.DlgFromDict(dictionary=response_dialog_input, sortKeys=False, title=expName)
-if dlg.OK is False:
-    core.quit()  # user pressed cancel
-
-
-
-#print(response_dialog_input)
-
-with open(filename + '_commentary.txt', 'w') as f:
-    for key, value in sorted(list(response_dialog_input.items())):
-        f.write(key + '\n' + value + '\n')
-    
 
 core.quit()
