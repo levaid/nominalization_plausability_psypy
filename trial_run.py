@@ -131,7 +131,7 @@ blocks = [ 'image', 'sentence']
 # raise(BaseException)
 
 stimulus_data = ['Figyelmeztetes.png', 'Emlekeztetes.png', 'Józsi üti Bélát.', 'Mari bámulja Julit.']
-nom_data = ['a hölgy figyelmeztetése#az úr figyelmeztetése', 'a hölgy figyelmeztetése#az úr figyelmeztetése', 'Józsi ütése#Béla ütése', 'Juli bámulása#Mari bámulása']
+nom_data = ['a hölgy figyelmeztetése#az úr figyelmeztetése', 'a lány emlékeztetése#a férfi emlékeztetése', 'Józsi ütése#Béla ütése', 'Juli bámulása#Mari bámulása']
 
 fixations = []
 stimuli = []
