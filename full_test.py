@@ -107,9 +107,9 @@ if dlg.OK is False:
     expInfo['expName'] = expName
     expInfo['psychopyVersion'] = psychopyVersion
 
-print(f'list is {expInfo["list_name"]}')
+#print(f'list is {expInfo["list_name"]}')
 rand_seed = expInfo['random_seed']
-print(f'random seed is {rand_seed}')
+#print(f'random seed is {rand_seed}')
 np.random.seed(expInfo['random_seed'])
 
 if expInfo['list_name'] == '1':
@@ -197,24 +197,6 @@ def shuffle_title(string, updown, leftright):
     return(formatted_string)
 
 
-def create_contingency_tables(filename):
-    table = pd.read_csv(filename)
-    output = []
-    output.append(pd.crosstab([table['stimulus_type'],table['stimulus_plaus']],table['answer_role'], margins = True))
-    output.append(pd.crosstab([table['stimulus_type'],table['stimulus_plaus']],table['answer_role'], margins = True, normalize='index'))
-    output.append(pd.crosstab(table['stimulus_plaus'],table['answer_role'], margins = True, normalize='index'))
-    table_sentence = table[(table['stimulus_type'] == 'sentence')].rename(columns={'stimulus_plaus':'sentences_stimulus_plaus', 'word_order':'sentences_word_order'})
-    table_image = table[(table['stimulus_type'] == 'image')].rename({'stimulus_plaus':'images_stimulus_plaus'})
-    output.append(pd.crosstab(table_sentence['sentences_stimulus_plaus'],table_sentence['answer_role'], margins = True))
-    test = pd.crosstab(table_sentence['sentences_word_order'],table_sentence['answer_role'], margins = True)
-    output.append(test)
-    output.append(pd.crosstab(table_image['stimulus_plaus'],table_image['answer_role'], margins = True))
-    output.append(pd.crosstab(table['key_resp.keys'],table['answer_role'], margins = True))
-    output.append(pd.crosstab(table['nom1_indented'],table['key_resp.keys'], margins = True))
-    output.append(pd.crosstab(table['nom2_indented'],table['key_resp.keys'], margins = True))
-    
-    return(output)
-
 base_order = sorted(list(images_dict.keys()))
 
 #print(images_dict)
@@ -287,13 +269,13 @@ for i, block in enumerate(blocks_2):
 
 # print(base_order, np.unique(base_order))
 
-print(base_order)
-print(second_order_random)
+#print(base_order)
+#print(second_order_random)
 
 if base_order[-1] == second_order_random[0]:
-    print('TRIGGERED')
-    print(base_order)
-    print(second_order_random)
+    print('ORDER CHANGED!')
+    #print(base_order)
+    #print(second_order_random)
     second_order_random[0], second_order_random[5] = second_order_random[5], second_order_random[0]
 
 final_order = base_order + second_order_random
@@ -587,7 +569,7 @@ while continueRoutine and routineTimer.getTime() > 0:
             if len(theseKeys):
                 theseKeys = theseKeys[0]  # at least one key was pressed
                 last_keypress_timestamp = t
-                print(theseKeys.name)
+                # print(theseKeys.name)
                 # print(theseKeys.name)
                 # print(theseKeys.rt)
                 # check for quit:
@@ -664,7 +646,7 @@ while continueRoutine and routineTimer.getTime() > 0:
             if len(theseKeys):
                 theseKeys = theseKeys[0]  # at least one key was pressed
                 last_keypress_timestamp = t
-                print(theseKeys.name)
+                # print(theseKeys.name)
                 # print(theseKeys.name)
                 # print(theseKeys.rt)
                 # check for quit:
@@ -918,7 +900,7 @@ while continueRoutine and routineTimer.getTime() > 0:
                     theseKeys = theseKeys[0]  # at least one key was pressed
                     LIST_OF_INST_KEYS += [theseKeys.name]
                     last_keypress_timestamp = t
-                    print(theseKeys.name)
+                    # print(theseKeys.name)
                     # print(theseKeys.name)
                     # print(theseKeys.rt)
                     # check for quit:
@@ -1036,15 +1018,52 @@ with open(filename + '_commentary.txt', 'w') as f:
     for key, value in sorted(list(response_dialog_input.items())):
         f.write(key + '\n' + value + '\n')
 
-if len(LIST_OF_KEYS) == len(stimuli):
-    print('doing stats')
-    output_tables = create_contingency_tables(filename+'.csv')
-    writer = pd.ExcelWriter(filename+'_statistics.xlsx')
-    offset = 0
-    for dataframe in output_tables:
-        dataframe.to_excel(writer, "sheet1", index=True, startrow=offset)
-        offset += len(dataframe) + 2
-    writer.save()
+try:
+    if len(LIST_OF_KEYS) == len(stimuli):
+        output_tables = []
+        table = pd.read_csv(filename+'.csv')
+
+        output_tables.append(pd.crosstab([table['stimulus_type'],table['stimulus_plaus']],table['answer_role'], margins = True))
+
+        output_tables += [table.groupby(['stimulus_plaus'], as_index=False).agg(
+                        {'key_resp.rt':['mean','std', 'min', 'max']})]
+        output_tables += [table.groupby(['stimulus_type'], as_index=False).agg(
+                        {'key_resp.rt':['mean','std', 'min', 'max']})]
+        output_tables += [table.groupby(['stimulus_type', 'stimulus_plaus'], as_index=False).agg(
+                {'key_resp.rt':['mean','std', 'min', 'max']})]
+        output_tables += [table.groupby(['answer_role'], as_index=False).agg(
+                        {'key_resp.rt':['mean','std', 'min', 'max']})]
+        output_tables += [table.groupby(['nom1_indented'], as_index=False).agg(
+                        {'key_resp.rt':['mean','std', 'min', 'max']})]
+        output_tables += [table.groupby(['nom2_indented'], as_index=False).agg(
+                        {'key_resp.rt':['mean','std', 'min', 'max']})]
+        output_tables += [table.groupby(['key_resp.keys'], as_index=False).agg(
+                        {'key_resp.rt':['mean','std', 'min', 'max']})]
+
+        # BUG in old pandas, you can't normalize by multiindex
+        # output_tables.append(pd.crosstab([table['stimulus_type'],table['stimulus_plaus']],table['answer_role'], margins = True, normalize='index'))
+        output_tables.append(pd.crosstab(table['stimulus_plaus'],table['answer_role'], margins = True, normalize='index'))
+        table_sentence = table[(table['stimulus_type'] == 'sentence')].rename(columns={'stimulus_plaus':'sentences_stimulus_plaus', 'word_order':'sentences_word_order'})
+        table_image = table[(table['stimulus_type'] == 'image')].rename({'stimulus_plaus':'images_stimulus_plaus'})
+        output_tables.append(pd.crosstab(table_sentence['sentences_stimulus_plaus'],table_sentence['answer_role'], margins = True))
+        test = pd.crosstab(table_sentence['sentences_word_order'],table_sentence['answer_role'], margins = True)
+        output_tables.append(test)
+        #output_tables.append(pd.crosstab(table_image['stimulus_plaus'],table_image['answer_role'], margins = True))
+        output_tables.append(pd.crosstab(table['key_resp.keys'],table['answer_role'], margins = True))
+        output_tables.append(pd.crosstab(table['nom1_indented'],table['key_resp.keys'], margins = True))
+        output_tables.append(pd.crosstab(table['nom2_indented'],table['key_resp.keys'], margins = True))
+
+
+        writer = pd.ExcelWriter(filename+'_statistics.xlsx')
+        offset = 0
+        for dataframe in output_tables:
+            # print(dataframe)
+            dataframe.to_excel(writer, "sheet1", index=True, startrow=offset)
+            offset += len(dataframe) + 5
+        writer.save()
+except Exception as e:
+    print('cannot generate statistics')
+    pass
 
 writer = pd.ExcelWriter(filename+'_data.xlsx')
 raw_output = pd.read_csv(filename+'.csv')
