@@ -3,3 +3,4 @@ data
 pictures/.directory
 playground
 *.zip
+.vscode/settings.json
