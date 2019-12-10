@@ -35,6 +35,7 @@ import pandas as pd
 from psychopy.hardware import keyboard
 
 ## TIME ARGUMENTS, CAN BE MODIFIED
+# HACK
 
 wait_between_images = 0.5 / 30
 float_in_time = 3 / 30
@@ -1027,7 +1028,7 @@ with open(filename + '_commentary.txt', 'w') as f:
 
 try:
     writer = pd.ExcelWriter(filename+'_data.xlsx')
-    raw_output = pd.read_csv(filename+'.csv', engine='python')
+    raw_output = pd.read_csv(filename+'.csv', engine='python', encoding='utf-8-sig')
     raw_output.to_excel(writer, 'sheet1', index=False)
     writer.save()
 except Exception as e:
@@ -1038,15 +1039,24 @@ try:
     if len(LIST_OF_KEYS) == len(stimuli):
         output_tables = []
         table = pd.read_excel(filename+'_data.xlsx')
-
+        table_sentence = table[(table['stimulus_type'] == 'sentence')].rename(columns={'stimulus_plaus':'sentences_stimulus_plaus', 'word_order':'sentences_word_order'})
+        table_image = table[(table['stimulus_type'] == 'image')].rename({'stimulus_plaus':'images_stimulus_plaus'})
+        # table_csv = pd.read_csv(filename+'.csv', engine='python')
         output_tables.append(pd.crosstab([table['stimulus_type'],table['stimulus_plaus']],table['answer_role'], margins = True))
 
         output_tables += [table.groupby(['stimulus_plaus'], as_index=False).agg(
                         {'key_resp.rt':['mean','std', 'min', 'max']})]
+
+        output_tables += [table_sentence.groupby(['sentences_word_order'], as_index=False).agg(
+                        {'key_resp.rt':['mean','std', 'min', 'max']})]
+
+        output_tables += [table_sentence.groupby(['sentences_word_order', 'sentences_stimulus_plaus'], as_index=False).agg(
+                        {'key_resp.rt':['mean','std', 'min', 'max']})]
+                        
         output_tables += [table.groupby(['stimulus_type'], as_index=False).agg(
                         {'key_resp.rt':['mean','std', 'min', 'max']})]
         output_tables += [table.groupby(['stimulus_type', 'stimulus_plaus'], as_index=False).agg(
-                {'key_resp.rt':['mean','std', 'min', 'max']})]
+                        {'key_resp.rt':['mean','std', 'min', 'max']})]
         output_tables += [table.groupby(['answer_role'], as_index=False).agg(
                         {'key_resp.rt':['mean','std', 'min', 'max']})]
         output_tables += [table.groupby(['nom1_indented'], as_index=False).agg(
@@ -1059,8 +1069,7 @@ try:
         # BUG in old pandas, you can't normalize by multiindex
         # output_tables.append(pd.crosstab([table['stimulus_type'],table['stimulus_plaus']],table['answer_role'], margins = True, normalize='index'))
         output_tables.append(pd.crosstab(table['stimulus_plaus'],table['answer_role'], margins = True, normalize='index'))
-        table_sentence = table[(table['stimulus_type'] == 'sentence')].rename(columns={'stimulus_plaus':'sentences_stimulus_plaus', 'word_order':'sentences_word_order'})
-        table_image = table[(table['stimulus_type'] == 'image')].rename({'stimulus_plaus':'images_stimulus_plaus'})
+
         output_tables.append(pd.crosstab(table_sentence['sentences_stimulus_plaus'],table_sentence['answer_role'], margins = True))
         test = pd.crosstab(table_sentence['sentences_word_order'],table_sentence['answer_role'], margins = True)
         output_tables.append(test)
