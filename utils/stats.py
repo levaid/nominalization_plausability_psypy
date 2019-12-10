@@ -1,17 +1,32 @@
 import pandas as pd
 import os
+import csv
 # print(os.listdir(os.path.join('..', 'data')))
-filename = 'data/xlsteszt_Zimmerertest_2019_Dec_10_1141'
+filename = 'data/xls_2_teszt_Zimmerertest_2019_Dec_10_1226'
 
 output_tables = []
 
 
+# data = []
+
+# with open(filename+'.csv', newline='', encoding='utf-8-sig') as csvfile:
+#     reader = csv.reader(csvfile, delimiter=',')
+#     header = next(reader)
+#     # header = [x.strip() for x in header]
+#     for row in reader:
+#         data += [row]
+
+raw_output = pd.read_csv(filename+'.csv', encoding='utf-8-sig')
+#raw_output = pd.DataFrame(data=data, columns=header)
+#raw_output = pd.read_csv(filename+'.csv', engine='python', sep = ',', header=0)
+#print(raw_output)
+
 writer = pd.ExcelWriter(filename+'_data.xlsx')
-raw_output = pd.read_csv(filename+'.csv', engine='python')
 raw_output.to_excel(writer, 'sheet1', index=False)
 writer.save()
 
 table = pd.read_excel(filename+'_data.xlsx')
+# print(table)
 table_sentence = table[(table['stimulus_type'] == 'sentence')].rename(columns={'stimulus_plaus':'sentences_stimulus_plaus', 'word_order':'sentences_word_order'})
 table_image = table[(table['stimulus_type'] == 'image')].rename({'stimulus_plaus':'images_stimulus_plaus'})
 # table_csv = pd.read_csv(filename+'.csv', engine='python')
