@@ -36,13 +36,15 @@ from psychopy.hardware import keyboard
 
 ## TIME ARGUMENTS, CAN BE MODIFIED
 
-wait_between_images = 0.5
-float_in_time = 3
-text_after_image = 2
+wait_between_images = 0.5 / 30
+float_in_time = 3 / 30
+text_after_image = 2 / 30
+
 
 # reading datafile which will be used when creating iterable object
 
-datafile = pd.read_csv('Zimmerer_order_integral.csv')
+datafile_raw = pd.read_excel('Zimmerer_order_integral.xlsx')
+datafile = datafile_raw[['ItemNum','Pic_Sent','Plaus_Implaus','Stimulus','List','img_name','banreti','nom','nom1_ap','nom2_ap','szórend']]
 
 images_l1, images_l2 = defaultdict(dict), defaultdict(dict)
 sentences_l1, sentences_l2 = defaultdict(dict), defaultdict(dict)
@@ -431,7 +433,8 @@ start_and_end += [visual.TextStim(
         win=win,
         name=f'H{i}',
         font='Noto Sans',
-        text='Köszönjük, hogy minket választott. Reméljük élvezte utazását, kifelé menet ne felejtsen el csippantani a kártyájával. Szíves viszontlátását. Space.',
+        text='A space megnyomása után meg fog jelenni egy kis ablak, amibe kérjük írja be az észrevételeit és hogy milyen stratégiát alkalmazott, amikor válaszolt. Miután beírta, nyomja meg az OK gombot.' + '\n' +
+              'Köszönjük, hogy elvégezte a tesztet!',
         pos=(0, 0),
         height=0.05,
         wrapWidth=1.3)] 
@@ -980,6 +983,7 @@ for key_resp, stimulus, orders, nom in zip(key_responses, stimuli, nomin_orders,
 
     thisExp.addData('nom1_indented', pos_1)
     thisExp.addData('nom2_indented', pos_2)
+
     # thisExp.addData('key_resp.started', key_resp.tStartRefresh)
     # thisExp.addData('key_resp.stopped', key_resp.tStopRefresh)
     # thisExp.addData('image_shown', stimulus.name)
@@ -987,8 +991,11 @@ for key_resp, stimulus, orders, nom in zip(key_responses, stimuli, nomin_orders,
 
     thisExp.addData('stimulus.started', stimulus.tStartRefresh)
     thisExp.addData('stimulus.stopped', stimulus.tStopRefresh)
-    thisExp.addData('list_name', expInfo['list_name'])
-    thisExp.addData('random_seed', rand_seed)
+
+    # these get added some time before
+    # thisExp.addData('list_name', expInfo['list_name'])
+    # thisExp.addData('random_seed', rand_seed)
+
     thisExp.nextEntry()
     
 
@@ -1019,9 +1026,18 @@ with open(filename + '_commentary.txt', 'w') as f:
         f.write(key + '\n' + value + '\n')
 
 try:
+    writer = pd.ExcelWriter(filename+'_data.xlsx')
+    raw_output = pd.read_csv(filename+'.csv', engine='python')
+    raw_output.to_excel(writer, 'sheet1', index=False)
+    writer.save()
+except Exception as e:
+    print('Couldn\'t generate xlsx from csv')
+    print(e)
+
+try:
     if len(LIST_OF_KEYS) == len(stimuli):
         output_tables = []
-        table = pd.read_csv(filename+'.csv')
+        table = pd.read_excel(filename+'_data.xlsx')
 
         output_tables.append(pd.crosstab([table['stimulus_type'],table['stimulus_plaus']],table['answer_role'], margins = True))
 
@@ -1063,11 +1079,8 @@ try:
         writer.save()
 except Exception as e:
     print('cannot generate statistics')
-    pass
+    print(e)
 
-writer = pd.ExcelWriter(filename+'_data.xlsx')
-raw_output = pd.read_csv(filename+'.csv')
-raw_output.to_excel(writer, 'sheet1', index=False)
-writer.save()
+
 
 core.quit()
