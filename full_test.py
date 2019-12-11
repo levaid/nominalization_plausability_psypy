@@ -37,8 +37,8 @@ from psychopy.hardware import keyboard
 ## TIME ARGUMENTS, CAN BE MODIFIED
 # HACK
 
-wait_between_images = 0.5 / 30
-text_after_image = 2 / 30
+wait_between_images = 1
+text_after_image = 2
 
 
 # reading datafile which will be used when creating iterable object
