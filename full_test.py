@@ -38,7 +38,6 @@ from psychopy.hardware import keyboard
 # HACK
 
 wait_between_images = 0.5 / 30
-float_in_time = 3 / 30
 text_after_image = 2 / 30
 
 
@@ -708,14 +707,6 @@ while continueRoutine and routineTimer.getTime() > 0:
                     # print(f'stopping image {i}: {stimulus.tStop:.5f}')
                 
                 time_elapsed = t - stimulus.tStart
-                if time_elapsed <= float_in_time:
-                    if directions[i] == 'r':
-                        stimulus.setPos([-2 + 2*time_elapsed*(1/float_in_time), 0])
-                    else:
-                        stimulus.setPos([2 - 2*time_elapsed*(1/float_in_time), 0])# shows images 
-                    
-                else:
-                    stimulus.setPos([0, 0])
 
 
             # TEXT LOGIC
@@ -723,7 +714,7 @@ while continueRoutine and routineTimer.getTime() > 0:
             if nominalization.status == NOT_STARTED and \
                 i == KEY_INDEX and \
                 t > last_keypress_timestamp + wait_between_images + \
-                    float_in_time + text_after_image and \
+                    text_after_image and \
                 INSTRUCTION_INDEX == i//10+1: 
                 # keep track of start time/frame for later
                 nominalization.frameNStart = frameN  # exact frame index
@@ -748,7 +739,7 @@ while continueRoutine and routineTimer.getTime() > 0:
             # FIXATION LOGIC
             if fixation.status == NOT_STARTED and \
                 i == KEY_INDEX and \
-                t > last_keypress_timestamp + wait_between_images + float_in_time and \
+                t > last_keypress_timestamp + wait_between_images and \
                 INSTRUCTION_INDEX == i//10+1: 
                 # keep track of start time/frame for later
                 fixation.frameNStart = frameN  # exact frame index
@@ -803,7 +794,7 @@ while continueRoutine and routineTimer.getTime() > 0:
             if key_resp.status == NOT_STARTED and \
                 i == KEY_INDEX and \
                 t > last_keypress_timestamp + wait_between_images + \
-                    text_after_image + float_in_time and \
+                    text_after_image and \
                 INSTRUCTION_INDEX == i//10+1: 
                 # keep track of start time/frame for later
                 key_resp.frameNStart = frameN  # exact frame index
