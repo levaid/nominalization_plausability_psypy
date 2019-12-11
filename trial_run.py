@@ -130,8 +130,8 @@ blocks = [ 'image', 'sentence']
 
 # raise(BaseException)
 
-stimulus_data = ['Figyelmeztetes.png', 'Emlekeztetes.png', 'Józsi üti Bélát.', 'Mari bámulja Julit.']
-nom_data = ['a hölgy figyelmeztetése#az úr figyelmeztetése', 'a lány emlékeztetése#a férfi emlékeztetése', 'Józsi ütése#Béla ütése', 'Juli bámulása#Mari bámulása']
+stimulus_data = ['Figyelmeztetes.png', 'Emlekeztetes.png', 'Józsi üti Bélát.', 'Mari nézi Julit.']
+nom_data = ['a hölgy figyelmeztetése#az úr figyelmeztetése', 'a lány emlékeztetése#a férfi emlékeztetése', 'Józsi ütése#Béla ütése', 'Juli nézése#Mari nézése']
 
 fixations = []
 stimuli = []
@@ -274,7 +274,8 @@ start_and_end += [visual.TextStim(
         win=win,
         name=f'H{i}',
         font='Noto Sans',
-        text='Köszönjük, hogy minket választott. Reméljük élvezte utazását, kifelé menet ne felejtsen el csippantani a kártyájával. Szíves viszontlátását. Space.',
+        text='Ez a tanítófázis volt.' + '\n' +
+              'Kérjük, nyomja meg a space gombot a tanítófázis befejezéséhez.',
         pos=(0, 0),
         height=0.05,
         wrapWidth=1.3)] 
@@ -325,8 +326,9 @@ LIST_OF_INST_KEYS = []
 #### PARAMETERS: #####
 
 wait_between_images = 0.5
-float_in_time = 3
-text_after_image = 3
+text_after_image = 2
+max_time_allowed = 10
+
 last_keypress_timestamp = -wait_between_images # to start slideshow at 0
 
 DBG_end_of_last_image = -1
@@ -549,14 +551,7 @@ while continueRoutine and routineTimer.getTime() > 0:
                     # print(f'stopping image {i}: {stimulus.tStop:.5f}')
                 
                 time_elapsed = t - stimulus.tStart
-                if time_elapsed <= float_in_time:
-                    if directions[i] == 'r':
-                        stimulus.setPos([-2 + 2*time_elapsed*(1/float_in_time), 0])
-                    else:
-                        stimulus.setPos([2 - 2*time_elapsed*(1/float_in_time), 0])# shows images 
-                    
-                else:
-                    stimulus.setPos([0, 0])
+                stimulus.setPos([0, 0])
 
 
             # TEXT LOGIC
@@ -564,7 +559,7 @@ while continueRoutine and routineTimer.getTime() > 0:
             if nominalization.status == NOT_STARTED and \
                 i == KEY_INDEX and \
                 t > last_keypress_timestamp + wait_between_images + \
-                    float_in_time + text_after_image and \
+                    text_after_image and \
                 INSTRUCTION_INDEX == i//2+1: 
                 # keep track of start time/frame for later
                 nominalization.frameNStart = frameN  # exact frame index
@@ -589,7 +584,7 @@ while continueRoutine and routineTimer.getTime() > 0:
             # FIXATION LOGIC
             if fixation.status == NOT_STARTED and \
                 i == KEY_INDEX and \
-                t > last_keypress_timestamp + wait_between_images + float_in_time and \
+                t > last_keypress_timestamp + wait_between_images and \
                 INSTRUCTION_INDEX == i//2+1: 
                 # keep track of start time/frame for later
                 fixation.frameNStart = frameN  # exact frame index
@@ -644,7 +639,7 @@ while continueRoutine and routineTimer.getTime() > 0:
             if key_resp.status == NOT_STARTED and \
                 i == KEY_INDEX and \
                 t > last_keypress_timestamp + wait_between_images + \
-                    text_after_image + float_in_time and \
+                    text_after_image and \
                 INSTRUCTION_INDEX == i//2+1: 
                 # keep track of start time/frame for later
                 key_resp.frameNStart = frameN  # exact frame index
@@ -671,18 +666,21 @@ while continueRoutine and routineTimer.getTime() > 0:
 
             if key_resp.status == STARTED and not waitOnFlip:
                 theseKeys = key_resp.getKeys(keyList=['x', 'o'], waitRelease=False)
+                # TODO
                 if len(theseKeys):
                     theseKeys = theseKeys[0]  # at least one key was pressed
-                    LIST_OF_KEYS += [theseKeys.name]
                     last_keypress_timestamp = t
-                    print(theseKeys.name)
-                    # print(theseKeys.name)
-                    # print(theseKeys.rt)
-                    # check for quit:
-                    if "escape" == theseKeys:
-                        endExpNow = True
-                    key_resp.keys.append(theseKeys.name)  # storing all keys
-                    key_resp.rt.append(theseKeys.rt)
+                    if theseKeys.name in ['x', 'o']:
+                        LIST_OF_KEYS += [theseKeys.name]
+                        print(theseKeys.name)
+                        # print(theseKeys.name)
+                        # print(theseKeys.rt)
+                        # check for quit:
+                        if "escape" == theseKeys:
+                            endExpNow = True
+                        key_resp.keys.append(theseKeys.name)  # storing all keys
+                        key_resp.rt.append(theseKeys.rt)
+
 
             #####################################################################
             # INSTRUCTIONS LOGIC
@@ -785,8 +783,7 @@ for thisComponent in trialComponents:
         thisComponent.setAutoDraw(False)
 
     
-
-
+print([(x.keys, x.rt) for x in key_responses])
 # Flip one final time so any remaining win.callOnFlip()
 # and win.timeOnFlip() tasks get executed before quitting
 win.flip()
@@ -798,16 +795,16 @@ thisExp.abort()  # or data files will save again on exit
 
 win.winHandle.set_fullscreen(False)
 win.winHandle.set_visible(False)
-      
+
 win.close()
 
 
-response_dialog_input = {'Megjegyzések, észrevételek:': '', 'Milyen stratégiát alkalmazott? \nAmennyiben módja van rá, kérem foglalja össze:': ''}
-response_dialog = gui.DlgFromDict(dictionary=response_dialog_input, sortKeys=False, title=expName)
-if dlg.OK is False:
-    core.quit()  # user pressed cancel
+# response_dialog_input = {'Megjegyzések, észrevételek:': '', 'Milyen stratégiát alkalmazott? \nAmennyiben módja van rá, kérem foglalja össze:': ''}
+# response_dialog = gui.DlgFromDict(dictionary=response_dialog_input, sortKeys=False, title=expName)
+# if dlg.OK is False:
+#     core.quit()  # user pressed cancel
 
-print(response_dialog_input)
+# print(response_dialog_input)
     
 
 core.quit()
