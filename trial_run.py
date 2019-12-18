@@ -230,7 +230,9 @@ for iteration_index, i in enumerate([1, 2, 3, 4]):
         font='Noto Sans',
         text='Ön képeket fog látni. Majd a képernyő jobb alsó sarkában két felirat jelenik meg. Válassza ki közülük azt, amelyik legjobban kifejezi a kép lényegét.' + '\n' +
                 'A feliratok közül a ⅄ és Ɔ gomb egyszeri lenyomásával válasszon.' + '\n' + 
-                'Nyomjon szóközt a továbbhaladáshoz.',        pos=(0, 0),
+                'Figyelem! A feliratok választásához rövid idő áll rendelkezésre. Amennyiben nem választott feliratot, a teszt végén megismétlődik egyszer a kép.\n' +
+                'Nyomjon szóközt a továbbhaladáshoz.',        
+        pos=(0, 0),
         height=0.05,
         wrapWidth=1.3)]
         current_key = keyboard.Keyboard()
@@ -246,6 +248,7 @@ for iteration_index, i in enumerate([1, 2, 3, 4]):
         font='Noto Sans',
         text='Ön mondatokat fog látni. Majd a képernyő jobb alsó sarkában két felirat jelenik meg. Válassza ki közülük azt, amelyik legjobban kifejezi a mondat lényegét.' + '\n' +
                 'A feliratok közül a ⅄ és Ɔ gomb egyszeri lenyomásával válasszon.' + '\n' + 
+                'Figyelem! A feliratok választásához rövid idő áll rendelkezésre. Amennyiben nem választott feliratot, a teszt végén megismétlődik egyszer a mondat.\n' +
                 'Nyomjon szóközt a továbbhaladáshoz.',        pos=(0, 0),
         height=0.05,
         wrapWidth=1.3)]
@@ -268,7 +271,7 @@ start_and_end += [visual.TextStim(
         win=win,
         name=f'H{i}',
         font='Noto Sans',
-        text='Köszöntjük Budapesten, csodás ma az idő. Dőljön hátra, és élvezze a tesztet. Space.',
+        text='Köszöntjük Budapesten, csodás ma az idő. Dőljön hátra, és élvezze a tesztet. ',
         pos=(0, 0),
         height=0.05,
         wrapWidth=1.3)]

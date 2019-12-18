@@ -365,6 +365,7 @@ for iteration_index, i in enumerate(final_order[:stimuli_to_show]):
         font='Noto Sans',
         text='Ön képeket fog látni. Majd a képernyő jobb alsó sarkában két felirat jelenik meg. Válassza ki közülük azt, amelyik legjobban kifejezi a kép lényegét.' + '\n' +
                 'A feliratok közül a ⅄ és Ɔ gomb egyszeri lenyomásával válasszon.' + '\n' + 
+                'Figyelem! A feliratok választásához rövid idő áll rendelkezésre. Amennyiben nem választott feliratot, a teszt végén megismétlődik egyszer a kép.\n' +
                 'Nyomjon szóközt a továbbhaladáshoz.',
         pos=(0, 0),
         height=0.05,
@@ -382,6 +383,7 @@ for iteration_index, i in enumerate(final_order[:stimuli_to_show]):
         font='Noto Sans',
         text='Ön mondatokat fog látni. Majd a képernyő jobb alsó sarkában két felirat jelenik meg. Válassza ki közülük azt, amelyik legjobban kifejezi a mondat lényegét.' + '\n' +
                 'A feliratok közül a ⅄ és Ɔ gomb egyszeri lenyomásával válasszon.' + '\n' + 
+                'Figyelem! A feliratok választásához rövid idő áll rendelkezésre. Amennyiben nem választott feliratot, a teszt végén megismétlődik egyszer a mondat.\n' +
                 'Nyomjon szóközt a továbbhaladáshoz.',
         pos=(0, 0),
         height=0.05,
