@@ -41,7 +41,6 @@ from psychopy.hardware import keyboard
 wait_between_images = 1 # time of empty screen between images
 text_after_image = 2 # the nominalization appears after this many seconds the stimulus was shown
 press_time = 10 # time spent waiting for input
-
 # HACK, DON'T MODIFY
 stimuli_to_show = 80 # max 80
 
