@@ -3,4 +3,6 @@ data
 pictures/.directory
 playground
 *.zip
+__pycache__/stats.cpython-36.pyc
+trial_run_future.py
 .vscode/settings.json
