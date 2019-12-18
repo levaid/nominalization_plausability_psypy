@@ -36,12 +36,13 @@ from stats import do_statistics
 from psychopy.hardware import keyboard
 
 ## TIME ARGUMENTS, CAN BE MODIFIED
-# HACK
+## USER CONFIGURABLE ##
 
-wait_between_images = 0.5 / 30
-text_after_image = 2 / 30
-press_time = 3
+wait_between_images = 1 # time of empty screen between images
+text_after_image = 2 # the nominalization appears after this many seconds the stimulus was shown
+press_time = 10 # time spent waiting for input
 
+# HACK, DON'T MODIFY
 stimuli_to_show = 80 # max 80
 
 

@@ -34,6 +34,10 @@ import pandas as pd
 
 from psychopy.hardware import keyboard
 
+wait_between_images = 1 # time of empty screen between images
+text_after_image = 2 # the nominalization appears after this many seconds the stimulus was shown
+press_time = 10 # time spent waiting for input
+
 # reading datafile which will be used when creating iterable object
 
 # Ensure that relative paths start from the same directory as this script
@@ -281,6 +285,22 @@ start_and_end += [visual.TextStim(
         wrapWidth=1.3)] 
 
 
+retry_instruction = visual.TextStim(
+        alignHoriz='center',
+        win=win,
+        name=f'H{i}',
+        font='Noto Sans',
+        text='Most újra meg fognak jelenni azok a képek és mondatok, amelyekre nem adott választ. ' + '\n' + 
+              'Nyomjon szóközt a folytatáshoz.',
+        pos=(0, 0),
+        height=0.05,
+        wrapWidth=1.3)
+
+retry_inst_keypress = keyboard.Keyboard()
+retry_inst_keypress.keys = []
+retry_inst_keypress.rt = []
+
+
 
 # raise('STOPHERE')
 
@@ -305,7 +325,8 @@ routineTimer = core.CountdownTimer()  # to track time remaining of each (non-sli
 routineTimer.add(8000.000000)
 # update component parameters for each repeat
 # keep track of which components have finished
-trialComponents = stimuli + key_responses + nominalizations + fixations + instructions + instruction_keypresses + start_and_end + start_and_end_keypresses
+trialComponents = stimuli + key_responses + nominalizations + fixations + instructions + instruction_keypresses + start_and_end + \
+    start_and_end_keypresses + [retry_instruction, retry_inst_keypress]
 for thisComponent in trialComponents:
     thisComponent.tStart = None
     thisComponent.tStop = None
@@ -325,9 +346,7 @@ LIST_OF_INST_KEYS = []
 
 #### PARAMETERS: #####
 
-wait_between_images = 0.5
-text_after_image = 2
-max_time_allowed = 10
+
 
 last_keypress_timestamp = -wait_between_images # to start slideshow at 0
 
@@ -335,6 +354,15 @@ DBG_end_of_last_image = -1
 
 is_test_started = False
 is_test_stopped = False
+
+is_test_started = False
+is_test_stopped = False
+is_normal_routine_stopped = False
+
+#################################################################################
+####                              MAIN ROUTINE                               ####
+#################################################################################
+
 
 # -------Run Routine "trial"-------
 while continueRoutine and routineTimer.getTime() > 0:
@@ -381,14 +409,14 @@ while continueRoutine and routineTimer.getTime() > 0:
                 screen.setAutoDraw(False)
                 # print(f'stopping image {i}: {stimulus.tStop:.5f}')
                 is_test_started = True
-                print('stopped start image')
-                print(f'{is_test_started} {is_test_stopped}')
+                # print('stopped start image')
+                # print(f'{is_test_started} {is_test_stopped}')
             
 
         waitOnFlip = False
         if start_and_end_keypresses[0].status == NOT_STARTED: 
             
-            print('start sequence started, logging keys')
+            # print('start sequence started, logging keys')
             start_and_end_keypresses[0].frameNStart = frameN  # exact frame index
             start_and_end_keypresses[0].tStart = t  # local t and not account for scr refresh
             start_and_end_keypresses[0].tStartRefresh = tThisFlipGlobal  # on global time
@@ -416,7 +444,7 @@ while continueRoutine and routineTimer.getTime() > 0:
             if len(theseKeys):
                 theseKeys = theseKeys[0]  # at least one key was pressed
                 last_keypress_timestamp = t
-                print(theseKeys.name)
+                # print(theseKeys.name)
                 # print(theseKeys.name)
                 # print(theseKeys.rt)
                 # check for quit:
@@ -426,84 +454,10 @@ while continueRoutine and routineTimer.getTime() > 0:
                 start_and_end_keypresses[0].rt.append(theseKeys.rt)
         
 
-    ############# END SCREEN ################
 
-    if is_test_stopped:
-
-        screen = start_and_end[1]
-
-        if screen.status == NOT_STARTED:
-            # we have pressed i-1 keys so we are viewing the i_th picture
-            # we also wait for wait_between_images second before showing the next
-            # keep track of start time/frame for later
-            # print(f"LAST IMAGE ENDED {(t - DBG_end_of_last_image):.3f} s ago")
-
-            screen.frameNStart = frameN  # exact frame index
-            screen.tStart = t  # local t and not account for scr refresh
-            screen.tStartRefresh = tThisFlipGlobal  # on global time
-            win.timeOnFlip(screen, 'tStartRefresh')  # time at next scr refresh
-            screen.setAutoDraw(True)
-            # print(image.frameNStart)
-            # print(f'Last keypress time: {last_keypress_timestamp:.5f}')
-            # print(f'starting image {i}: {stimulus.tStart:.5f}')
-            
-            # print(image.frameNStart/image.tStart)
-
-        if screen.status == STARTED:
-            # is it time to stop? (based on global clock, using actual start)
-            if len(start_and_end_keypresses[1].keys) != 0:
-                # keep track of stop time/frame for later
-                screen.tStop = t  # not accounting for scr refresh
-                screen.frameNStop = frameN  # exact frame index
-                win.timeOnFlip(screen, 'tStopRefresh')  # time at next scr refresh
-                screen.setAutoDraw(False)
-                # print(f'stopping image {i}: {stimulus.tStop:.5f}')
-            
-
-        waitOnFlip = False
-        if start_and_end_keypresses[1].status == NOT_STARTED: 
-            
-            # print(f'started key_inst {i} ## {i//2} ## {i%10} ## {KEY_INDEX} ## {INSTRUCTION_INDEX} ## {KEY_INDEX//10}')
-
-            # keep track of start time/frame for later
-            start_and_end_keypresses[1].frameNStart = frameN  # exact frame index
-            start_and_end_keypresses[1].tStart = t  # local t and not account for scr refresh
-            start_and_end_keypresses[1].tStartRefresh = tThisFlipGlobal  # on global time
-            win.timeOnFlip(start_and_end_keypresses[1], 'tStartRefresh')  # time at next scr refresh
-            start_and_end_keypresses[1].status = STARTED
-            # keyboard checking is just starting
-            # print(f"time when entered key {i}: {key_inst.tStart}")
-            waitOnFlip = True
-            win.callOnFlip(start_and_end_keypresses[1].clock.reset)  # t=0 on next screen flip
-            win.callOnFlip(start_and_end_keypresses[1].clearEvents, eventType='keyboard')  # clear events on next screen flip
-            
-
-        if start_and_end_keypresses[1].status == STARTED:
-            # is it time to stop? (based on global clock, using actual start)
-            if len(start_and_end_keypresses[1].keys) != 0:
-                # keep track of stop time/frame for later
-                start_and_end_keypresses[1].tStop = t  # not accounting for scr refresh
-                start_and_end_keypresses[1].frameNStop = frameN  # exact frame index
-                win.timeOnFlip(start_and_end_keypresses[1], 'tStopRefresh')  # time at next scr refresh
-                start_and_end_keypresses[1].status = FINISHED
-                #print(key_responses)
-
-        if start_and_end_keypresses[1].status == STARTED and not waitOnFlip:
-            theseKeys = start_and_end_keypresses[1].getKeys(keyList=['space'], waitRelease=False)
-            if len(theseKeys):
-                theseKeys = theseKeys[0]  # at least one key was pressed
-                last_keypress_timestamp = t
-                print(theseKeys.name)
-                # print(theseKeys.name)
-                # print(theseKeys.rt)
-                # check for quit:
-                if "escape" == theseKeys:
-                    endExpNow = True
-                start_and_end_keypresses[1].keys.append(theseKeys.name)  # storing all keys
-                start_and_end_keypresses[1].rt.append(theseKeys.rt)
 
     ############# MAIN CYCLE #################
-    if is_test_started and not is_test_stopped:
+    if is_test_started and not is_normal_routine_stopped:
         
         for i, stimulus in enumerate(stimuli):
             
@@ -526,18 +480,12 @@ while continueRoutine and routineTimer.getTime() > 0:
                 # we have pressed i-1 keys so we are viewing the i_th picture
                 # we also wait for wait_between_images second before showing the next
                 # keep track of start time/frame for later
-                # print(f"LAST IMAGE ENDED {(t - DBG_end_of_last_image):.3f} s ago")
 
                 stimulus.frameNStart = frameN  # exact frame index
                 stimulus.tStart = t  # local t and not account for scr refresh
                 stimulus.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(stimulus, 'tStartRefresh')  # time at next scr refresh
                 stimulus.setAutoDraw(True)
-                # print(image.frameNStart)
-                # print(f'Last keypress time: {last_keypress_timestamp:.5f}')
-                # print(f'starting image {i}: {stimulus.tStart:.5f}')
-                
-                # print(image.frameNStart/image.tStart)
 
             if stimulus.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
@@ -548,10 +496,8 @@ while continueRoutine and routineTimer.getTime() > 0:
                     stimulus.frameNStop = frameN  # exact frame index
                     win.timeOnFlip(stimulus, 'tStopRefresh')  # time at next scr refresh
                     stimulus.setAutoDraw(False)
-                    # print(f'stopping image {i}: {stimulus.tStop:.5f}')
                 
                 time_elapsed = t - stimulus.tStart
-                stimulus.setPos([0, 0])
 
 
             # TEXT LOGIC
@@ -567,9 +513,6 @@ while continueRoutine and routineTimer.getTime() > 0:
                 nominalization.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(nominalization, 'tStartRefresh')  # time at next scr refresh
                 nominalization.setAutoDraw(True)
-                # print(text.frameNStart)
-                # print(text.tStart)
-                # print(text.frameNStart/text.tStart)
 
             if nominalization.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
@@ -592,9 +535,6 @@ while continueRoutine and routineTimer.getTime() > 0:
                 fixation.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(fixation, 'tStartRefresh')  # time at next scr refresh
                 fixation.setAutoDraw(True)
-                # print(text.frameNStart)
-                # print(text.tStart)
-                # print(text.frameNStart/text.tStart)
 
             if fixation.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
@@ -605,33 +545,6 @@ while continueRoutine and routineTimer.getTime() > 0:
                     win.timeOnFlip(fixation, 'tStopRefresh')  # time at next scr refresh
                     fixation.setAutoDraw(False)
                 # fixation.ori = (frameN*8)%360
-
-
-
-            # HELP LOGIC
-            # shown on the bottom of the screen
-            # if help_text.status == NOT_STARTED and \
-            #     i == KEY_INDEX and \
-            #     t > last_keypress_timestamp + wait_between_images and \
-            #     INSTRUCTION_INDEX == i//10+1: 
-            #     # keep track of start time/frame for later
-            #     help_text.frameNStart = frameN  # exact frame index
-            #     help_text.tStart = t  # local t and not account for scr refresh
-            #     help_text.tStartRefresh = tThisFlipGlobal  # on global time
-            #     win.timeOnFlip(help_text, 'tStartRefresh')  # time at next scr refresh
-            #     help_text.setAutoDraw(True)
-            #     # print(help_text.frameNStart)
-            #     # print(help_text.tStart)
-            #     # print(help_text.frameNStart/help_text.tStart)
-
-            # if help_text.status == STARTED:
-            #     # is it time to stop? (based on global clock, using actual start)
-            #     if i != KEY_INDEX:
-            #         # keep track of stop time/frame for later
-            #         help_text.tStop = t  # not accounting for scr refresh
-            #         help_text.frameNStop = frameN  # exact frame index
-            #         win.timeOnFlip(help_text, 'tStopRefresh')  # time at next scr refresh
-            #         help_text.setAutoDraw(False)
 
             # KEY LOGIC
             # logs STIMULUSkeys
@@ -647,8 +560,6 @@ while continueRoutine and routineTimer.getTime() > 0:
                 key_resp.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(key_resp, 'tStartRefresh')  # time at next scr refresh
                 key_resp.status = STARTED
-                # keyboard checking is just starting
-                # print(f"time when entered key {i}: {key_resp.tStart}")
                 waitOnFlip = True
                 win.callOnFlip(key_resp.clock.reset)  # t=0 on next screen flip
                 win.callOnFlip(key_resp.clearEvents, eventType='keyboard')  # clear events on next screen flip
@@ -662,42 +573,35 @@ while continueRoutine and routineTimer.getTime() > 0:
                     key_resp.frameNStop = frameN  # exact frame index
                     win.timeOnFlip(key_resp, 'tStopRefresh')  # time at next scr refresh
                     key_resp.status = FINISHED
-                    #print(key_responses)
 
             if key_resp.status == STARTED and not waitOnFlip:
-                theseKeys = key_resp.getKeys(keyList=['x', 'o'], waitRelease=False)
-                # TODO
-                if len(theseKeys):
-                    theseKeys = theseKeys[0]  # at least one key was pressed
-                    last_keypress_timestamp = t
-                    if theseKeys.name in ['x', 'o']:
+                if t - key_resp.tStart <= press_time:
+                    theseKeys = key_resp.getKeys(keyList=['x', 'o'], waitRelease=False)
+                    if len(theseKeys):
+                        theseKeys = theseKeys[0]  # at least one key was pressed
                         LIST_OF_KEYS += [theseKeys.name]
-                        print(theseKeys.name)
-                        # print(theseKeys.name)
-                        # print(theseKeys.rt)
-                        # check for quit:
+                        last_keypress_timestamp = t
                         if "escape" == theseKeys:
                             endExpNow = True
                         key_resp.keys.append(theseKeys.name)  # storing all keys
                         key_resp.rt.append(theseKeys.rt)
-
+                else:
+                    LIST_OF_KEYS += ['n']
+                    key_resp.keys.append('n')
+                    key_resp.rt.append(press_time)
+                    last_keypress_timestamp = t
 
             #####################################################################
             # INSTRUCTIONS LOGIC
             # SHOWN BEFORE BLOX
 
             if instruction.status == NOT_STARTED and INSTRUCTION_INDEX == KEY_INDEX//2 and KEY_INDEX % 2 == 0 and INSTRUCTION_INDEX == i // 2 and \
-                t > last_keypress_timestamp + 0.2:
-                # print(f'started instruction {i}')
-                # keep track of start time/frame for later
+                t > last_keypress_timestamp + wait_between_images:
                 instruction.frameNStart = frameN  # exact frame index
                 instruction.tStart = t  # local t and not account for scr refresh
                 instruction.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(instruction, 'tStartRefresh')  # time at next scr refresh
                 instruction.setAutoDraw(True)
-                # print(instruction.frameNStart)
-                # print(instruction.tStart)
-                # print(instruction.frameNStart/instruction.tStart)
 
             if instruction.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
@@ -710,17 +614,13 @@ while continueRoutine and routineTimer.getTime() > 0:
 
             waitOnFlip = False
             if key_inst.status == NOT_STARTED and INSTRUCTION_INDEX == KEY_INDEX//2 and KEY_INDEX % 2 == 0 and INSTRUCTION_INDEX == i // 2 and \
-                t > last_keypress_timestamp + 0.2: 
-                
-
+                t > last_keypress_timestamp + wait_between_images: 
                 # keep track of start time/frame for later
                 key_inst.frameNStart = frameN  # exact frame index
                 key_inst.tStart = t  # local t and not account for scr refresh
                 key_inst.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(key_inst, 'tStartRefresh')  # time at next scr refresh
                 key_inst.status = STARTED
-                # keyboard checking is just starting
-                # print(f"time when entered key {i}: {key_inst.tStart}")
                 waitOnFlip = True
                 win.callOnFlip(key_inst.clock.reset)  # t=0 on next screen flip
                 win.callOnFlip(key_inst.clearEvents, eventType='keyboard')  # clear events on next screen flip
@@ -734,25 +634,348 @@ while continueRoutine and routineTimer.getTime() > 0:
                     key_inst.frameNStop = frameN  # exact frame index
                     win.timeOnFlip(key_inst, 'tStopRefresh')  # time at next scr refresh
                     key_inst.status = FINISHED
-                    #print(key_responses)
 
             if key_inst.status == STARTED and not waitOnFlip:
+
                 theseKeys = key_inst.getKeys(keyList=['space'], waitRelease=False)
                 if len(theseKeys):
                     theseKeys = theseKeys[0]  # at least one key was pressed
                     LIST_OF_INST_KEYS += [theseKeys.name]
                     last_keypress_timestamp = t
-                    print(theseKeys.name)
-                    # print(theseKeys.name)
-                    # print(theseKeys.rt)
-                    # check for quit:
                     if "escape" == theseKeys:
                         endExpNow = True
                     key_inst.keys.append(theseKeys.name)  # storing all keys
                     key_inst.rt.append(theseKeys.rt)
+                
 
             if KEY_INDEX == len(stimuli):
-                is_test_stopped = True
+                is_normal_routine_stopped = True
+
+##########################################################################
+       
+
+    # check for quit (typically the Esc key)
+    if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+        break
+
+    # check if all components have finished
+    if is_normal_routine_stopped:  # a component has requested a forced-end of Routine
+        break
+
+    win.flip()
+
+
+
+
+
+
+
+########################################################################
+###                        RETRY ROUTINE                             ###
+########################################################################
+
+
+
+retry_indices = [i for (i, l) in enumerate(LIST_OF_KEYS) if l == 'n']
+#HACK 
+# retry_indices = [0, 2, 11]
+print('indices they need to retry are:')
+print(retry_indices)
+
+
+
+for i in retry_indices:
+    stimuli[i].status = NOT_STARTED
+    key_responses[i].status = NOT_STARTED
+    nominalizations[i].status = NOT_STARTED
+    fixations[i].status = NOT_STARTED
+    key_responses[i].keys = []
+    key_responses[i].rt = []
+
+retry_inst_shown = False
+RETRY_KEYS = []
+
+print('STARTED NEW ROUTINE')
+
+while continueRoutine and routineTimer.getTime() > 0:
+    # get current time
+    t = trialClock.getTime()
+    tThisFlip = win.getFutureFlipTime(clock=trialClock)
+    tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+    frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+    # update/draw components on each frame
+
+    if len(RETRY_KEYS) == len(retry_indices) and t > last_keypress_timestamp + wait_between_images + 0.1:
+        is_test_stopped = True
+
+    if len(retry_indices) == 0:
+        retry_inst_shown = True
+        is_test_stopped = True
+
+    if not retry_inst_shown:
+
+        screen = retry_instruction
+        key_event = retry_inst_keypress
+
+        if screen.status == NOT_STARTED:
+            # we have pressed i-1 keys so we are viewing the i_th picture
+            # we also wait for wait_between_images second before showing the next
+            screen.frameNStart = frameN  # exact frame index
+            screen.tStart = t  # local t and not account for scr refresh
+            screen.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(screen, 'tStartRefresh')  # time at next scr refresh
+            screen.setAutoDraw(True)
+
+        if screen.status == STARTED:
+            # is it time to stop? (based on global clock, using actual start)
+            if len(key_event.keys) != 0:
+                # keep track of stop time/frame for later
+                screen.tStop = t  # not accounting for scr refresh
+                screen.frameNStop = frameN  # exact frame index
+                win.timeOnFlip(screen, 'tStopRefresh')  # time at next scr refresh
+                screen.setAutoDraw(False)
+                retry_inst_shown = True
+            
+
+        waitOnFlip = False
+        if key_event.status == NOT_STARTED: 
+            # keep track of start time/frame for later
+            key_event.frameNStart = frameN  # exact frame index
+            key_event.tStart = t  # local t and not account for scr refresh
+            key_event.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(key_event, 'tStartRefresh')  # time at next scr refresh
+            key_event.status = STARTED
+            # keyboard checking is just starting
+            waitOnFlip = True
+            win.callOnFlip(key_event.clock.reset)  # t=0 on next screen flip
+            win.callOnFlip(key_event.clearEvents, eventType='keyboard')  # clear events on next screen flip
+            
+
+        if key_event.status == STARTED:
+            # is it time to stop? (based on global clock, using actual start)
+            if len(key_event.keys) != 0:
+                # keep track of stop time/frame for later
+                key_event.tStop = t  # not accounting for scr refresh
+                key_event.frameNStop = frameN  # exact frame index
+                win.timeOnFlip(key_event, 'tStopRefresh')  # time at next scr refresh
+                key_event.status = FINISHED
+
+        if key_event.status == STARTED and not waitOnFlip:
+            theseKeys = key_event.getKeys(keyList=['space'], waitRelease=False)
+            if len(theseKeys):
+                theseKeys = theseKeys[0]  # at least one key was pressed
+                last_keypress_timestamp = t
+                if "escape" == theseKeys:
+                    endExpNow = True
+                key_event.keys.append(theseKeys.name)  # storing all keys
+                key_event.rt.append(theseKeys.rt)
+
+                
+
+
+
+    if not is_test_stopped and retry_inst_shown:
+    
+        for i, r_ind in enumerate(retry_indices):
+            
+            stimulus = stimuli[r_ind]
+            KEY_INDEX = len(RETRY_KEYS)
+            key_resp = key_responses[r_ind]
+            nominalization = nominalizations[r_ind]
+            # help_text = helps[i]
+            fixation = fixations[r_ind]
+
+            if stimulus.status == NOT_STARTED and \
+                i == KEY_INDEX and \
+                t > last_keypress_timestamp + wait_between_images:
+                # we have pressed i-1 keys so we are viewing the i_th picture
+                # we also wait for wait_between_images second before showing the next
+                # keep track of start time/frame for later
+
+
+                stimulus.frameNStart = frameN  # exact frame index
+                stimulus.tStart = t  # local t and not account for scr refresh
+                stimulus.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(stimulus, 'tStartRefresh')  # time at next scr refresh
+                stimulus.setAutoDraw(True)
+
+            if stimulus.status == STARTED:
+                # is it time to stop? (based on global clock, using actual start)
+                if i != KEY_INDEX:
+                    # keep track of stop time/frame for later
+                    stimulus.tStop = t  # not accounting for scr refresh
+                    stimulus.frameNStop = frameN  # exact frame index
+                    win.timeOnFlip(stimulus, 'tStopRefresh')  # time at next scr refresh
+                    stimulus.setAutoDraw(False)
+                
+                time_elapsed = t - stimulus.tStart
+
+
+            # TEXT LOGIC
+
+            if nominalization.status == NOT_STARTED and \
+                i == KEY_INDEX and \
+                t > last_keypress_timestamp + wait_between_images + \
+                    text_after_image: 
+                # keep track of start time/frame for later
+                nominalization.frameNStart = frameN  # exact frame index
+                nominalization.tStart = t  # local t and not account for scr refresh
+                nominalization.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(nominalization, 'tStartRefresh')  # time at next scr refresh
+                nominalization.setAutoDraw(True)
+
+            if nominalization.status == STARTED:
+                # is it time to stop? (based on global clock, using actual start)
+                if i != KEY_INDEX:
+                    # keep track of stop time/frame for later
+                    nominalization.tStop = t  # not accounting for scr refresh
+                    nominalization.frameNStop = frameN  # exact frame index
+                    win.timeOnFlip(nominalization, 'tStopRefresh')  # time at next scr refresh
+                    nominalization.setAutoDraw(False)
+
+
+            # FIXATION LOGIC
+            if fixation.status == NOT_STARTED and \
+                i == KEY_INDEX and \
+                t > last_keypress_timestamp + wait_between_images: 
+                # keep track of start time/frame for later
+                fixation.frameNStart = frameN  # exact frame index
+                fixation.tStart = t  # local t and not account for scr refresh
+                fixation.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(fixation, 'tStartRefresh')  # time at next scr refresh
+                fixation.setAutoDraw(True)
+
+            if fixation.status == STARTED:
+                # is it time to stop? (based on global clock, using actual start)
+                if t > fixation.tStart + text_after_image - 1/20:
+                    # keep track of stop time/frame for later
+                    fixation.tStop = t  # not accounting for scr refresh
+                    fixation.frameNStop = frameN  # exact frame index
+                    win.timeOnFlip(fixation, 'tStopRefresh')  # time at next scr refresh
+                    fixation.setAutoDraw(False)
+                # fixation.ori = (frameN*8)%360
+
+            # KEY LOGIC
+            # logs STIMULUSkeys
+            waitOnFlip = False
+            if key_resp.status == NOT_STARTED and \
+                i == KEY_INDEX and \
+                t > last_keypress_timestamp + wait_between_images + \
+                    text_after_image: 
+                # keep track of start time/frame for later
+                key_resp.frameNStart = frameN  # exact frame index
+                key_resp.tStart = t  # local t and not account for scr refresh
+                key_resp.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(key_resp, 'tStartRefresh')  # time at next scr refresh
+                key_resp.status = STARTED
+                waitOnFlip = True
+                win.callOnFlip(key_resp.clock.reset)  # t=0 on next screen flip
+                win.callOnFlip(key_resp.clearEvents, eventType='keyboard')  # clear events on next screen flip
+                
+
+            if key_resp.status == STARTED:
+                # is it time to stop? (based on global clock, using actual start)
+                if i != KEY_INDEX:
+                    # keep track of stop time/frame for later
+                    key_resp.tStop = t  # not accounting for scr refresh
+                    key_resp.frameNStop = frameN  # exact frame index
+                    win.timeOnFlip(key_resp, 'tStopRefresh')  # time at next scr refresh
+                    key_resp.status = FINISHED
+
+            if key_resp.status == STARTED and not waitOnFlip:
+                if t - key_resp.tStart <= press_time:
+                    theseKeys = key_resp.getKeys(keyList=['x', 'o'], waitRelease=False)
+                    if len(theseKeys):
+                        theseKeys = theseKeys[0]  # at least one key was pressed
+                        RETRY_KEYS += [theseKeys.name]
+                        last_keypress_timestamp = t
+                        if "escape" == theseKeys:
+                            endExpNow = True
+                        key_resp.keys.append(theseKeys.name)  # storing all keys
+                        key_resp.rt.append(theseKeys.rt)
+                else:
+                    RETRY_KEYS += ['n']
+                    key_resp.keys.append('n')
+                    key_resp.rt.append(press_time)
+                    last_keypress_timestamp = t
+
+                
+    ############# END SCREEN ################
+
+    if is_test_stopped:
+
+        screen = start_and_end[1]
+
+        if screen.status == NOT_STARTED:
+            # we have pressed i-1 keys so we are viewing the i_th picture
+            # we also wait for wait_between_images second before showing the next
+            screen.frameNStart = frameN  # exact frame index
+            screen.tStart = t  # local t and not account for scr refresh
+            screen.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(screen, 'tStartRefresh')  # time at next scr refresh
+            screen.setAutoDraw(True)
+
+        if screen.status == STARTED:
+            # is it time to stop? (based on global clock, using actual start)
+            if len(start_and_end_keypresses[1].keys) != 0:
+                # keep track of stop time/frame for later
+                screen.tStop = t  # not accounting for scr refresh
+                screen.frameNStop = frameN  # exact frame index
+                win.timeOnFlip(screen, 'tStopRefresh')  # time at next scr refresh
+                screen.setAutoDraw(False)
+            
+
+        waitOnFlip = False
+        if start_and_end_keypresses[1].status == NOT_STARTED: 
+            # keep track of start time/frame for later
+            start_and_end_keypresses[1].frameNStart = frameN  # exact frame index
+            start_and_end_keypresses[1].tStart = t  # local t and not account for scr refresh
+            start_and_end_keypresses[1].tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(start_and_end_keypresses[1], 'tStartRefresh')  # time at next scr refresh
+            start_and_end_keypresses[1].status = STARTED
+            # keyboard checking is just starting
+            waitOnFlip = True
+            win.callOnFlip(start_and_end_keypresses[1].clock.reset)  # t=0 on next screen flip
+            win.callOnFlip(start_and_end_keypresses[1].clearEvents, eventType='keyboard')  # clear events on next screen flip
+            
+
+        if start_and_end_keypresses[1].status == STARTED:
+            # is it time to stop? (based on global clock, using actual start)
+            if len(start_and_end_keypresses[1].keys) != 0:
+                # keep track of stop time/frame for later
+                start_and_end_keypresses[1].tStop = t  # not accounting for scr refresh
+                start_and_end_keypresses[1].frameNStop = frameN  # exact frame index
+                win.timeOnFlip(start_and_end_keypresses[1], 'tStopRefresh')  # time at next scr refresh
+                start_and_end_keypresses[1].status = FINISHED
+
+        if start_and_end_keypresses[1].status == STARTED and not waitOnFlip:
+            theseKeys = start_and_end_keypresses[1].getKeys(keyList=['space'], waitRelease=False)
+            if len(theseKeys):
+                theseKeys = theseKeys[0]  # at least one key was pressed
+                last_keypress_timestamp = t
+                if "escape" == theseKeys:
+                    endExpNow = True
+                start_and_end_keypresses[1].keys.append(theseKeys.name)  # storing all keys
+                start_and_end_keypresses[1].rt.append(theseKeys.rt)
+
+
+
+    # check for quit (typically the Esc key)
+    if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+        break
+
+    # check if all components have finished
+    if start_and_end[1].status == FINISHED: 
+        break
+
+    # refresh the screen
+    win.flip()
+
+
+# -------Ending Routine "trial"-------
+for thisComponent in trialComponents:
+    if hasattr(thisComponent, "setAutoDraw"):
+        thisComponent.setAutoDraw(False)
 
 ##########################################################################
 
