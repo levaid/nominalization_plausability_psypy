@@ -92,3 +92,6 @@ implauziblis képekre add A vs P
 
 pozíció vs AP/válasz
 szórend OVS/VSO
+
+# február 11
+Majd kapok egy táblázatot, azt kell véleményeznem, de még nem kell módosítás.
