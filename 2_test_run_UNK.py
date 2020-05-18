@@ -108,9 +108,9 @@ psychopyVersion = '3.2.3'
 expName = 'Zimmerertest'  # from the Builder filename that created this script
 
 expInfo = {'participant': '',
+           'list_name': '1',
            'session': '001',
            'date': data.getDateStr(),
-           'list_name': '1',
            'random_seed': int(data.getDateStr()[-4:])}
 
 
