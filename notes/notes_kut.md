@@ -93,5 +93,14 @@ implauziblis képekre add A vs P
 pozíció vs AP/válasz
 szórend OVS/VSO
 
-# február 11
-Majd kapok egy táblázatot, azt kell véleményeznem, de még nem kell módosítás.
+# május 14.
+
+Esetleg válaszokat adnak tipikus esetekben, és nem A/P-t?
+Normalizált szórás
+Ágens/páciens előhívja az implauziblis
+hosszabb idő vs hosszabb szó
+Vannak olyan nominalizáció, ami ige + képző (tolás)
+Főnévi alaptő + ige + főnévképző (ajándékozás)
+Ismétléseket megnézni
+README-t update-elni, képekkel, foolproofra.
+Valahogy megszüntetni a dev branchet.
