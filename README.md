@@ -1,10 +1,13 @@
 # Zimmerer-féle nominalizáció teszt
 
+## Általános tudnivalók
+
 Kompatibilitás: A PsychoPy3 2020-al éppen nem kompatibilis a script, de a 3.2-es verziókkal még igen.
 
-Innen tölthető le a program: [https://github.com/psychopy/psychopy/releases/download/3.2.4/StandalonePsychoPy3-3.2.4-win64.exe](https://github.com/psychopy/psychopy/releases/download/3.2.4/StandalonePsychoPy3-3.2.4-win64.exe)
+Innen tölthető le a program: [https://github.com/psychopy/psychopy/releases/download/3.2.4/StandalonePsychoPy3-3.2.4-win64.exe](https://github.com/psychopy/psychopy/releases/download/3.2.4/StandalonePsychoPy3-3.2.4-win64.exe)  
+Telepítése egyszerű next-next-install.
 
-A betűtípusok a _fonts_ mappában találhatóak, duplakattintással meg lehet ezeket nyitni és a telepítés gombra kattintva lehet telepíteni. 
+A betűtípusok a _fonts_ mappában találhatóak, duplakattintással meg lehet ezeket nyitni és a telepítés gombra kattintva lehet telepíteni. Amennyiben nem működik olyan egyszerűen, Windowson a vezérlőpultban rá lehet keresni a betűtípusok kulcsszóra, és oda drag&dropolva lehet telepíteni.
 
 A betűtípusok telepítése szükséges a szavak pontos elhelyezkedéséhez, de azok nélkül is lefut a teszt.
 
@@ -14,13 +17,13 @@ Kétféle billentyűkkel van megadva a teszt: X és O, vagy kétféle ismeretlen
 
 Az `1_trial_run_XO.py` és `1_trial_run_UNK.py` a tanítótesztek, a `2_test_run_XO.py`, `2_test_run_UNK.py` az éles tesztek.
 
-# Futtatás
+## Futtatás
 
 TODO kettes lista! Kettes lista!
 
 TODO, képekkel!
 
-# Kimenet
+## Kimenet
 
 A kimenet a data mappában található. Minden teszthez 4 fájlt generál a program a `data` mappába, a megadott név alapján: 
 
