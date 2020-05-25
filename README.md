@@ -25,7 +25,7 @@ A jobb felső sarokban van egy nagy zöld gomb **Clone or download** felirattal,
 
 Az alábbi ábra segít a letöltésben:
 
-![a Github oldala](readme/github_site.png)
+![a Github oldala](https://github.com/levaid/nominalization_plausability_psypy/raw/master/readme/github_site.PNG)
 
 ## Futtatás
 
@@ -33,18 +33,21 @@ Az alábbi ábra segít a letöltésben:
 
 2. Amennyiben megnyitottuk a Codert, be kell tallózni a tanítóteszt fájlát, ami ott van, ahova kitömörítettük a Github repót. (`1_trial_run_XO.py` otthoni használatra). 
 Ezt a File -> Open menüpontban vagy a zölddel kékkel bekeretezett ikonnál tudjuk megtenni.
-3. Amennyiben betallóztuk a fájlt, a program megnyitja fülként fájlt és látjuk a tanítóteszt nevét a fülön. (az ábrán zölddel van kijelölve)
+3. Amennyiben betallóztuk a fájlt, a program megnyitja fülként fájlt és látjuk a tanítóteszt nevét a fülön. (az ábrán zölddel van kijelölve) Egy kis idő eltelhet, mire elindul a teszt.
 
-4. Ezután, a nagy zöld, futó emberre kattintva elindul a teszt. (pirossal be van keretezve az ábrán)
+![PsychoPy coder](https://github.com/levaid/nominalization_plausability_psypy/raw/master/readme/coder.PNG)
 
 
-TODO kettes lista! Kettes lista!
+4. Ezután, a nagy zöld, futó emberre kattintva elindul a teszt. (pirossal be van keretezve az ábrán), és feljön egy párbeszédablak, ahol meg kell adni a tesztalany nevét és a tesztsorszámát a **list_name** sorba. Kettes listára van jelen pillanatban szükségünk, így a **2**-es számot kell odaírni.
 
-TODO, képekkel!
+
+![Párbeszédablak](https://github.com/levaid/nominalization_plausability_psypy/raw/master/readme/dialog_box.PNG)
+
+5. Ha véget ért a tanítófázis, ugyanígy betölthető az éles teszt, `2_test_run_XO.py`. Ez már létre fogja hozni a kért statisztikákat a `data` mappába, a tesztalany nevével.
 
 ## Kimenet
 
-A kimenet a data mappában található. Minden teszthez 4 fájlt generál a program a `data` mappába, a megadott név alapján: 
+A kimenet a `data` mappában található. Minden teszthez 4 fájlt generál a program a `data` mappába, a megadott név alapján: 
 
 - egy `megadott_név.csv` fájlt a válaszokkal, amelyeket a tesztalany adott (minden egyéb fájl ebből generálódik)
 - egy `megadott_név.xlsx` fájlt a válaszokkal, amelyeket a tesztalany adott (ez szabadon megnyitható, nézegethető, ebből számolja a statisztikát a program)
