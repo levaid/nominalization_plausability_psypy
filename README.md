@@ -16,7 +16,7 @@ Az `1_trial_run_XO.py` és `1_trial_run_UNK.py` a tanítótesztek, a `2_test_run
 
 Először szükségünk lesz magára a tesztre. 
 
-A jobb felső sarokban van egy nagy zöld gomb **Clone or download** felirattal, utána **Download as ZIP**, majd ki kell tömöríteni egy tetszőleges mappába.
+A jobb felső sarokban van egy nagy zöld gomb **Clone or download** felirattal, utána **Download as ZIP**, majd ki kell tömöríteni egy tetszőleges mappába. Amennyiben rendszergazdai jogosultságot kér a Windows a kutömörítés, úgy válasszunk vagy más helyet a kitömörítéshez, vagy figyeljük a későbbiekben arra, hogy rendszergazdai jogosultsággal indítsuk a PsychoPy-t.
 
 Az alábbi ábra segít a letöltésben:
 
