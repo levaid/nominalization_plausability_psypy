@@ -4,7 +4,7 @@
 
 Kompatibilitás: A PsychoPy3 2020-al éppen nem kompatibilis a script, de a 3.2-es verziókkal még igen.
 
-Innen tölthető le a program: [https://github.com/psychopy/psychopy/releases/download/3.2.4/StandalonePsychoPy3-3.2.4-win64.exe](https://github.com/psychopy/psychopy/releases/download/3.2.4/StandalonePsychoPy3-3.2.4-win64.exe)  
+Innen tölthető le a megfelelő verziójú program: [https://github.com/psychopy/psychopy/releases/download/3.2.4/StandalonePsychoPy3-3.2.4-win64.exe](https://github.com/psychopy/psychopy/releases/download/3.2.4/StandalonePsychoPy3-3.2.4-win64.exe)  
 Telepítése egyszerű next-next-install.
 
 A betűtípusok a _fonts_ mappában találhatóak, duplakattintással meg lehet ezeket nyitni és a telepítés gombra kattintva lehet telepíteni. Amennyiben nem működik olyan egyszerűen, Windowson a vezérlőpultban rá lehet keresni a betűtípusok kulcsszóra, és oda drag&dropolva lehet telepíteni.
@@ -17,7 +17,26 @@ Kétféle billentyűkkel van megadva a teszt: X és O, vagy kétféle ismeretlen
 
 Az `1_trial_run_XO.py` és `1_trial_run_UNK.py` a tanítótesztek, a `2_test_run_XO.py`, `2_test_run_UNK.py` az éles tesztek.
 
+## Github repó letöltése
+
+Először szükségünk lesz magára a tesztre. 
+
+A jobb felső sarokban van egy nagy zöld gomb **Clone or download** felirattal, utána **Download as ZIP**, majd ki kell tömöríteni egy tetszőleges mappába.
+
+Az alábbi ábra segít a letöltésben:
+
+![a Github oldala]("readme/github_site.png")
+
 ## Futtatás
+
+1. Először meg kell nyitni a PsychoPy **Coder**t. Nagyon fontos, hogy a **Coder**t, és ne a **Builder**t nyissuk meg. Pirossal alá van húzva a lenti ábrán.
+
+2. Amennyiben megnyitottuk a Codert, be kell tallózni a tanítóteszt fájlát, ami ott van, ahova kitömörítettük a Github repót. (`1_trial_run_XO.py` otthoni használatra). 
+Ezt a File -> Open menüpontban vagy a zölddel kékkel bekeretezett ikonnál tudjuk megtenni.
+3. Amennyiben betallóztuk a fájlt, a program megnyitja fülként fájlt és látjuk a tanítóteszt nevét a fülön. (az ábrán zölddel van kijelölve)
+
+4. Ezután, a nagy zöld, futó emberre kattintva elindul a teszt. (pirossal be van keretezve az ábrán)
+
 
 TODO kettes lista! Kettes lista!
 
