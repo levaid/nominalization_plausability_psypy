@@ -42,7 +42,7 @@ Ezt a File -> Open menüpontban vagy a zölddel kékkel bekeretezett ikonnál tu
 
 ![Párbeszédablak](https://github.com/levaid/nominalization_plausability_psypy/raw/master/readme/dialog_box.PNG)
 
-5. Ha véget ért a tanítófázis, ugyanígy betölthető az éles teszt, `2_test_run_XO.py`. Ez már létre fogja hozni a kért statisztikákat a `data` mappába, a tesztalany nevével.
+5. Ha véget ért a tanítófázis, ugyanígy betölthető az éles teszt, `2_test_run_XO.py`. Figyeljünk a lista sorszámára, mert a kettesre van szükségünk, itt ezt újra meg kell adni. Ez már létre fogja hozni a kért statisztikákat a `data` mappába, a tesztalany nevével. 
 
 ## Kimenet
 
