@@ -8,10 +8,6 @@ Innen tölthető le a megfelelő verziójú program: [https://github.com/psychop
 Telepítése egyszerű next-next-install.
 
 
-A betűtípusok telepítése szükséges a szavak pontos elhelyezkedéséhez, de azok nélkül is lefut a teszt.
-
-A PsychoPy3 **coderben** kell megnyitni a `.py` fájlokat, a builderben nem nyílik meg.
-
 Kétféle billentyűkombinációval van megadva a teszt: X és O, vagy kétféle ismeretlen szimbólum. Otthoni használatra az előbbi javasolt, `XO.py` végű fájlnevek, az `UNK.py` az ismeretlen karaktereket tartalmazza.
 
 Az `1_trial_run_XO.py` és `1_trial_run_UNK.py` a tanítótesztek, a `2_test_run_XO.py`, `2_test_run_UNK.py` az éles tesztek.
@@ -26,7 +22,7 @@ Az alábbi ábra segít a letöltésben:
 
 ![a Github oldala](https://github.com/levaid/nominalization_plausability_psypy/raw/master/readme/github_site.PNG)
 
-Miután kicsomagoltuk a fájlt, fel lehet telepíteni a betűtípust. 
+Miután kicsomagoltuk a fájlt, fel lehet telepíteni a betűtípust. Ezek telepítése szükséges a szavak pontos elhelyezkedéséhez, de azok nélkül is lefut a teszt.
 
 A betűtípusok a _fonts_ mappában találhatóak, duplakattintással meg lehet ezeket nyitni és a telepítés gombra kattintva lehet telepíteni. Amennyiben nem működik olyan egyszerűen, Windowson a vezérlőpultban rá lehet keresni a betűtípusok kulcsszóra, és oda drag&dropolva lehet telepíteni. A betűtípusok nevei Noto Sans és Liberation Serif.
 
