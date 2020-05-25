@@ -25,7 +25,7 @@ A jobb felső sarokban van egy nagy zöld gomb **Clone or download** felirattal,
 
 Az alábbi ábra segít a letöltésben:
 
-![a Github oldala]("readme/github_site.png")
+![a Github oldala](readme/github_site.png)
 
 ## Futtatás
 
