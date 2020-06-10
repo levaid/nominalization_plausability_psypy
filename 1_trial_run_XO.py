@@ -13,17 +13,30 @@ If you publish work using this script the most relevant publication is:
 
 from __future__ import absolute_import, division
 
-from psychopy import gui, visual, core, data, logging
-from psychopy.constants import (NOT_STARTED, STARTED, FINISHED)
+from psychopy import locale_setup
+from psychopy import prefs
+from psychopy import sound, gui, visual, core, data, event, logging, clock
+from psychopy.constants import (NOT_STARTED, STARTED, PLAYING, PAUSED,
+                                STOPPED, FINISHED, PRESSED, RELEASED, FOREVER)
 
 import numpy as np  # whole numpy lib is available, prepend 'np.'
+from numpy import (sin, cos, tan, log, log10, pi, average,
+                   sqrt, std, deg2rad, rad2deg, linspace, asarray)
 
+from random import choice, shuffle
+from collections import defaultdict
+from numpy.random import randint, normal, shuffle
 import random
-from random import choice
 import os  # handy system and path functions
+import sys  # to get file system encoding
+import pandas as pd
+
 
 from psychopy.hardware import keyboard
 
+# # USER CONFIGURABLE ##
+KEY_O_LETTER = 'O'
+KEY_X_LETTER = 'X'
 wait_between_images = 1  # time of empty screen between images
 # the nominalization appears after this many seconds the stimulus was shown
 text_after_image = 2
@@ -97,13 +110,13 @@ def shuffle_title(string, updown, leftright):
     # 1 is up and left, it says nom1's position, nom2 ios diagonal to that
     nom1, nom2 = string.split('#')
     if updown == 1 and leftright == 1:
-        formatted_string = f"X:  {nom1}\n{' '*len(nom1)*2}O:  {nom2}"
+        formatted_string = f"{KEY_X_LETTER}:  {nom1}\n{' '*len(nom1)*2}{KEY_O_LETTER}:  {nom2}"
     if updown == 0 and leftright == 1:
-        formatted_string = f"{' '*len(nom1)*2}X: {nom2}\nO:  {nom1}"
+        formatted_string = f"{' '*len(nom1)*2}{KEY_X_LETTER}: {nom2}\n{KEY_O_LETTER}:  {nom1}"
     if updown == 1 and leftright == 0:
-        formatted_string = f"{' '*len(nom2)*2}X: {nom1}\nO:  {nom2}"
+        formatted_string = f"{' '*len(nom2)*2}{KEY_X_LETTER}: {nom1}\n{KEY_O_LETTER}:  {nom2}"
     if updown == 0 and leftright == 0:
-        formatted_string = f"X:  {nom2}\n{' '*len(nom2)*2}O:  {nom1}"
+        formatted_string = f"{KEY_X_LETTER}:  {nom2}\n{' '*len(nom2)*2}{KEY_O_LETTER}:  {nom1}"
 
     return(formatted_string)
 
@@ -210,7 +223,7 @@ for iteration_index, i in enumerate([1, 2, 3, 4]):
     #     win=win,
     #     name=f'H{i}',
     #     font='Noto Sans',
-    #     text='X cím: X gomb\nO cím: O gomb',
+    #     text='⅄ cím: ⅄ gomb\nƆ cím: Ɔ gomb',
     #     pos=(-0.7, -0.4),
     #     height=0.03,
     #     wrapWidth=1.4)]
@@ -222,7 +235,7 @@ for iteration_index, i in enumerate([1, 2, 3, 4]):
             name=f'H{i}',
             font='Noto Sans',
             text='Ön képeket fog látni. Majd a képernyő jobb alsó sarkában két felirat jelenik meg. Válassza ki közülük azt, amelyik legjobban kifejezi a kép lényegét.' + '\n' +
-            'A feliratok közül a X és O gomb egyszeri lenyomásával válasszon.' + '\n' +
+            f'A feliratok közül a(z) {KEY_X_LETTER} és {KEY_O_LETTER} gomb egyszeri lenyomásával válasszon.' + '\n' +
             'Figyelem! A feliratok választásához rövid idő áll rendelkezésre. Amennyiben nem választott feliratot, a teszt végén megismétlődik egyszer a kép.\n' +
             'Nyomjon szóközt a továbbhaladáshoz.',
             pos=(0, 0),
@@ -240,7 +253,7 @@ for iteration_index, i in enumerate([1, 2, 3, 4]):
             name=f'H{i}',
             font='Noto Sans',
             text='Ön mondatokat fog látni. Majd a képernyő jobb alsó sarkában két felirat jelenik meg. Válassza ki közülük azt, amelyik legjobban kifejezi a mondat lényegét.' + '\n' +
-            'A feliratok közül a X és O gomb egyszeri lenyomásával válasszon.' + '\n' +
+            f'A feliratok közül a(z) {KEY_X_LETTER} és {KEY_O_LETTER} gomb egyszeri lenyomásával válasszon.' + '\n' +
             'Figyelem! A feliratok választásához rövid idő áll rendelkezésre. Amennyiben nem választott feliratot, a teszt végén megismétlődik egyszer a mondat.\n' +
             'Nyomjon szóközt a továbbhaladáshoz.',        pos=(0, 0),
             height=0.05,

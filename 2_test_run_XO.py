@@ -30,16 +30,18 @@ from stats import do_statistics
 
 from psychopy.hardware import keyboard
 
-# TIME ARGUMENTS, CAN BE MODIFIED
+
 # # USER CONFIGURABLE ##
 
-wait_between_images = 1  # time of empty screen between images
+KEY_O_LETTER = 'O'
+KEY_X_LETTER = 'X'
+wait_between_images = 0.1  # time of empty screen between images
 # the nominalization appears after this many seconds the stimulus was shown
-text_after_image = 2
+text_after_image = 0.2
 press_time = 8  # time spent waiting for input
 
 # HACK, DON'T MODIFY
-stimuli_to_show = 80  # max 80
+stimuli_to_show = 20  # max 80
 
 
 # reading datafile which will be used when creating iterable object
@@ -176,13 +178,13 @@ def shuffle_title(string, updown, leftright):
     # 1 is up and left, it says nom1's position, nom2 ios diagonal to that
     nom1, nom2 = string.split('#')
     if updown == 1 and leftright == 1:
-        formatted_string = f"⅄:  {nom1}\n{' '*len(nom1)*2}Ɔ:  {nom2}"
+        formatted_string = f"{KEY_X_LETTER}:  {nom1}\n{' '*len(nom1)*2}{KEY_O_LETTER}:  {nom2}"
     if updown == 0 and leftright == 1:
-        formatted_string = f"{' '*len(nom1)*2}⅄:  {nom2}\nƆ:  {nom1}"
+        formatted_string = f"{' '*len(nom1)*2}{KEY_X_LETTER}:  {nom2}\n{KEY_O_LETTER}:  {nom1}"
     if updown == 1 and leftright == 0:
-        formatted_string = f"{' '*len(nom2)*2}⅄:  {nom1}\nƆ:  {nom2}"
+        formatted_string = f"{' '*len(nom2)*2}{KEY_X_LETTER}:  {nom1}\n{KEY_O_LETTER}:  {nom2}"
     if updown == 0 and leftright == 0:
-        formatted_string = f"⅄:  {nom2}\n{' '*len(nom2)*2}Ɔ:  {nom1}"
+        formatted_string = f"{KEY_X_LETTER}:  {nom2}\n{' '*len(nom2)*2}{KEY_O_LETTER}:  {nom1}"
 
     return(formatted_string)
 
@@ -329,18 +331,6 @@ for iteration_index, i in enumerate(final_order[:stimuli_to_show]):
     random.seed(rand_seed + iteration_index)
     directions += choice(['l', 'r'])
 
-    # help_text = create_textstim(, '', , size=0.03)
-
-    # helps += [visual.TextStim(
-    #     alignHoriz='center',
-    #     win=win,
-    #     name=f'H{i}',
-    #     font='Noto Sans',
-    #     text='⅄ cím: ⅄ gomb\nƆ cím: Ɔ gomb',
-    #     pos=(-0.7, -0.4),
-    #     height=0.03,
-    #     wrapWidth=1.4)]
-
     if iteration_index % 10 == 0 and blocks[iteration_index // 10] == 'image':
         instructions += [
             visual.TextStim(
@@ -348,10 +338,10 @@ for iteration_index, i in enumerate(final_order[:stimuli_to_show]):
                 win=win,
                 name=f'H{i}',
                 font='Noto Sans',
-                text='Ön képeket fog látni. Majd a képernyő jobb alsó sarkában két felirat jelenik meg. \
+                text=f'Ön képeket fog látni. Majd a képernyő jobb alsó sarkában két felirat jelenik meg. \
                     Válassza ki közülük azt, amelyik legjobban kifejezi a kép lényegét.' +
                 '\n' +
-                'A feliratok közül a ⅄ és Ɔ gomb egyszeri lenyomásával válasszon.' +
+                f'A feliratok közül a {KEY_X_LETTER} és {KEY_O_LETTER} gomb egyszeri lenyomásával válasszon.' +
                 '\n' +
                 'Nyomjon szóközt a továbbhaladáshoz.',
                 pos=(
@@ -372,10 +362,10 @@ for iteration_index, i in enumerate(final_order[:stimuli_to_show]):
                 win=win,
                 name=f'H{i}',
                 font='Noto Sans',
-                text='Ön mondatokat fog látni. Majd a képernyő jobb alsó sarkában két felirat jelenik meg. \
+                text=f'Ön mondatokat fog látni. Majd a képernyő jobb alsó sarkában két felirat jelenik meg. \
                     Válassza ki közülük azt, amelyik legjobban kifejezi a mondat lényegét.' +
                 '\n' +
-                'A feliratok közül a ⅄ és Ɔ gomb egyszeri lenyomásával válasszon.' +
+                f'A feliratok közül a {KEY_X_LETTER} és {KEY_O_LETTER} gomb egyszeri lenyomásával válasszon.' +
                 '\n' +
                 'Nyomjon szóközt a továbbhaladáshoz.',
                 pos=(
@@ -1167,17 +1157,17 @@ for global_index, key_resp, stimulus, orders, nom in zip(
         thisExp.addData('word_order', svo_orders[stim_name])
 
     nom1, nom2 = nom.text.split('\n')
-    thisExp.addData('nom_1_X', nom1.strip('⅄Ɔ: '))
-    thisExp.addData('nom_2_O', nom2.strip('⅄Ɔ: '))
+    thisExp.addData('nom_1_X', nom1.strip('⅄ƆXO: '))
+    thisExp.addData('nom_2_O', nom2.strip('⅄ƆXO: '))
     thisExp.addData('retried', int(global_index in retry_indices))
 
     if key_resp.keys is not None and key_resp.keys != []:  # No response was made
         thisExp.addData('key_resp.keys', key_resp.keys[0])
         if key_resp.keys[0] in ['x', 'o']:
             if key_resp.keys[0] == 'x':
-                answer = nom1.strip('⅄Ɔ: ')
+                answer = nom1.strip('⅄ƆXO: ')
             else:
-                answer = nom2.strip('⅄Ɔ: ')
+                answer = nom2.strip('⅄ƆXO: ')
 
             thisExp.addData('answer', answer)
             thisExp.addData('answer_role',
