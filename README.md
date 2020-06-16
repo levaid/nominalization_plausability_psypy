@@ -48,6 +48,10 @@ Ezt a File -> Open menüpontban vagy a zölddel kékkel bekeretezett ikonnál tu
 
 Amennyiben újabb verzió kerül fel githubra, akkor egyszerűen az eddig használt mappába való kitömörítéssel és minden fájl felülírásával lehet frissíteni a tesztet.
 
+## Hibabejelentés
+
+Amennyiben nem generálódtak le fájlok, a PsychoPy Coder konzolja mutatja a hibaüzenetet. Ezt kimásolva/lescreenshotolva el lehet nekem küldeni e-mailben a levai753@gmail.com címemre, és utána járok. 
+
 ## Kimenet
 
 A kimenet a `data` mappában található. Minden teszthez 4 fájlt generál a program a `data` mappába, a megadott név alapján: 
