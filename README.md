@@ -50,7 +50,7 @@ Amennyiben újabb verzió kerül fel githubra, akkor egyszerűen az eddig haszn�
 
 ## Hibabejelentés
 
-Amennyiben nem generálódtak le fájlok, a PsychoPy Coder konzolja mutatja a hibaüzenetet. Ezt kimásolva/lescreenshotolva el lehet nekem küldeni e-mailben a levai753@gmail.com címemre, és utána járok. 
+Amennyiben nem generálódtak le fájlok, a PsychoPy Coder konzolja (alul, az output fülben) mutatja a hibaüzenetet. Ezt kimásolva/lescreenshotolva el lehet nekem küldeni e-mailben a levai753@gmail.com címemre, és utána járok. 
 
 ## Kimenet
 
