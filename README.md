@@ -44,6 +44,8 @@ Ezt a File -> Open menüpontban vagy a zölddel kékkel bekeretezett ikonnál tu
 
 5. Ha véget ért a tanítófázis, ugyanígy betölthető az éles teszt, `2_test_run_XO.py`. Figyeljünk a lista sorszámára, mert a kettesre van szükségünk, itt ezt újra meg kell adni. Ez már létre fogja hozni a kért statisztikákat a `data` mappába, a tesztalany nevével. 
 
+6. Éles teszt előtt mindig próbáljuk ki a tesztet, hogy generálja-e a megfelelő fájlokat és lefut-e a teszt.
+
 ## Frissítés
 
 Amennyiben újabb verzió kerül fel githubra, akkor egyszerűen az eddig használt mappába való kitömörítéssel és minden fájl felülírásával lehet frissíteni a tesztet.
