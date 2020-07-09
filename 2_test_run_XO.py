@@ -35,9 +35,9 @@ from psychopy.hardware import keyboard
 
 KEY_O_LETTER = 'O'
 KEY_X_LETTER = 'X'
-wait_between_images = 0.1  # time of empty screen between images
+wait_between_images = 1  # time of empty screen between images
 # the nominalization appears after this many seconds the stimulus was shown
-text_after_image = 0.2
+text_after_image = 2
 press_time = 8  # time spent waiting for input
 
 # HACK, DON'T MODIFY
