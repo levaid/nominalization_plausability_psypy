@@ -8,3 +8,5 @@ trial_run_future.py
 .vscode/settings.json
 notes
 stats
+hypothesis_testing/barplots
+hypothesis_testing/heatmaps
