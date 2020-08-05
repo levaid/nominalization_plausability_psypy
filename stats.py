@@ -91,5 +91,5 @@ def do_statistics(filename):
     writer.save()
 
 if __name__=='__main__':
-    filename = 'data/int_Zimmerertest_2019_Dec_17_1445'
+    filename = 'stats/cum_lists'
     do_statistics(filename)
