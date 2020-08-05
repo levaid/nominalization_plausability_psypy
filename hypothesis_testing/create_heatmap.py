@@ -14,11 +14,10 @@ variations = list(product(['image', 'sentence'], ['plaus', 'implaus'], ['cum', '
 for stimtype, plaus, lname in variations:
 
     main_df = pd.read_csv('../stats/cum_lists.csv')
-
     verb_by_index = defaultdict(dict)
     cat_change_by_word = {}
 
-    with open('../id_by_verb.csv') as f:
+    with open('../id_by_verb.csv', encoding='utf-8') as f:
         for line in f:
             i_, verb, morph, nom = line.strip().split(',')
             verb_by_index[i_]['verb'] = nom
@@ -26,8 +25,11 @@ for stimtype, plaus, lname in variations:
             verb_by_index[i_]['cat_change'] = morph.count('_')-1
             cat_change_by_word[verb] = morph.count('_')-1
 
+
     normal = [12, 10]
     smaller = [7, 5.5]
+
+    # print(cat_change_by_word)
 
     if lname != 'cum':
         main_df = main_df.query(f"list_name == {lname}")
@@ -155,8 +157,8 @@ for stimtype, plaus, lname in variations:
     ax.set_ylim((-0.5, len(df)-0.5))
     
     # Minor ticks
-    ax.set_xticks(np.arange(-.5, len(df['verb']), 1), minor=True);
-    ax.set_yticks(np.arange(-.5, len(df['verb']), 1), minor=True);
+    ax.set_xticks(np.arange(-.5, len(df['verb']), 1), minor=True)
+    ax.set_yticks(np.arange(-.5, len(df['verb']), 1), minor=True)
 
     # Gridlines based on minor ticks
     ax.grid(which='minor', color='grey', linestyle='-', linewidth=1, alpha=0.5)

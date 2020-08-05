@@ -15,7 +15,7 @@ for stimtype, plaus, lname in variations:
     verb_by_index = defaultdict(dict)
     cat_change_by_word = {}
 
-    with open('../id_by_verb.csv') as f:
+    with open('../id_by_verb.csv', encoding='utf-8') as f:
         for line in f:
             i_, verb, morph, nom = line.strip().split(',')
             verb_by_index[i_]['verb'] = nom
