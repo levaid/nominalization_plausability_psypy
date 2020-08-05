@@ -40,7 +40,7 @@ text_after_image = 2
 press_time = 8  # time spent waiting for input
 
 # HACK, DON'T MODIFY
-stimuli_to_show = 20  # max 80
+stimuli_to_show = 80  # max 80
 
 
 # reading datafile which will be used when creating iterable object
